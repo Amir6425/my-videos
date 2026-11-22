@@ -12,10 +12,10 @@
   },
   "dependencies": {
     "@remotion/cli": "4.0.528",
+    "@remotion/media-utils": "4.0.528",
     "@remotion/noise": "4.0.528",
     "@remotion/paths": "4.0.528",
     "@remotion/tailwind-v4": "4.0.528",
-    "@remotion/media-utils": "4.0.528",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "remotion": "4.0.528",
@@ -24,7 +24,10 @@
   "devDependencies": {
     "@types/react": "19.2.7",
     "@types/web": "0.0.166",
+    "hyperframes": "^0.9.82",
     "typescript": "5.9.3"
   },
-  "sideEffects": ["*.css"]
+  "sideEffects": [
+    "*.css"
+  ]
 }
