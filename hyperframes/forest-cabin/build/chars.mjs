@@ -32,6 +32,11 @@ function hair(kind, c) {
     <path d="M -106,-50 C -114,-150 -60,-196 0,-196 C 60,-196 114,-150 106,-50 C 100,-110 80,-140 40,-148 C 10,-136 -30,-136 -60,-146 C -86,-132 -100,-100 -106,-50 Z" fill="${c.hair}"/>
     <path d="M -90,-150 C -50,-186 40,-190 90,-150" stroke="${c.hairHi}" stroke-width="8" fill="none" opacity="0.7" stroke-linecap="round"/>
     <path d="M -104,-40 C -104,-10 -102,10 -100,24 M 104,-40 C 104,-10 102,10 100,24" stroke="${c.hair}" stroke-width="10" opacity="0.6"/>`;
+  if (kind === "old") return `
+    <ellipse cx="-20" cy="-150" rx="16" ry="10" fill="${c.deep}" opacity="0.35"/><ellipse cx="34" cy="-128" rx="10" ry="7" fill="${c.deep}" opacity="0.3"/>
+    ${[-1, 1].map((sx) => `<path d="M ${sx * 92},-96 C ${sx * 120},-76 ${sx * 128},-30 ${sx * 122},10 C ${sx * 118},36 ${sx * 106},52 ${sx * 96},58 C ${sx * 104},30 ${sx * 106},-4 ${sx * 102},-36 C ${sx * 100},-60 ${sx * 96},-80 ${sx * 88},-92 Z" fill="${c.hair}"/>
+      ${[-70, -40, -10, 20].map((y) => `<path d="M ${sx * 104},${y} q ${sx * 12},10 ${sx * 14},26" stroke="${c.hairSh || "#bdb8ae"}" stroke-width="3" fill="none" opacity="0.7"/>`).join("")}
+      <path d="M ${sx * 118},-50 q ${sx * 10},-6 ${sx * 14},-16 M ${sx * 122},-10 q ${sx * 12},-2 ${sx * 16},-10" stroke="${c.hair}" stroke-width="5" fill="none" stroke-linecap="round"/>`).join("")}`;
   return `${[[-96, -110, 34], [-60, -160, 38], [-10, -184, 40], [44, -170, 38], [88, -126, 34], [-104, -60, 26], [104, -66, 26], [-30, -140, 30], [30, -136, 30]]
       .map(([x, y, r], i) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${i % 3 === 2 ? c.hairHi : c.hair}"/>`).join("")}
     ${[[-70, -150], [0, -170], [60, -150], [-96, -96], [96, -100]].map(([x, y]) => `<path d="M ${x - 12},${y} a 12,12 0 1,1 24,0" stroke="${c.hairHi}" stroke-width="4" fill="none" opacity="0.7"/>`).join("")}`;
@@ -69,7 +74,7 @@ function arm(p, c, side, a, b, prop = "") {
 }
 
 // A friend: c = colours, kind = hair style, beard, grin (static open smile). arms = [[aL,bL],[aR,bR]].
-export function friend(p, c, { kind = "wavy", beard = false, grin = false, mouth = "", propR = "", arms = [[10, -55], [-10, 55]] } = {}) {
+export function friend(p, c, { kind = "wavy", beard = false, grin = false, mouth = "", propR = "", wrinkles = false, arms = [[10, -55], [-10, 55]] } = {}) {
   const eo = { iris: c.iris, deep: c.deep, skin: c.skin };
   return `
   <g id="${p}-torso">
@@ -94,7 +99,13 @@ export function friend(p, c, { kind = "wavy", beard = false, grin = false, mouth
       <path id="${p}-browR" d="M 80,-28 C 64,-42 36,-46 14,-36 L 16,-28 C 36,-36 62,-32 78,-20 Z" fill="${c.hair}"/>
       <path d="M 6,12 C 9,32 13,48 17,60" fill="none" stroke="${c.deep}" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
       <path d="M -14,64 C -8,72 8,72 14,64" fill="none" stroke="${c.deep}" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-      ${mouth === "scream" ? `<ellipse cx="0" cy="104" rx="30" ry="40" fill="#3a1212"/><path d="M -26,80 C -10,72 10,72 26,80 L 24,90 C 10,84 -10,84 -24,90 Z" fill="#fff"/><ellipse cx="0" cy="126" rx="16" ry="10" fill="#a8434a"/>`
+      ${wrinkles ? `<g stroke="${c.deep}" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6">
+        <path d="M -56,-70 C -20,-78 20,-78 56,-70"/><path d="M -48,-56 C -16,-62 16,-62 48,-56"/><path d="M -20,-20 L -14,-34 M 20,-20 L 14,-34"/>
+        <path d="M -78,10 l -14,-6 M -78,18 l -14,4 M 78,10 l 14,-6 M 78,18 l 14,4"/><path d="M -44,40 C -50,64 -48,84 -40,96 M 44,40 C 50,64 48,84 40,96"/>
+        <path d="M -70,32 C -60,40 -40,42 -28,36 M 70,32 C 60,40 40,42 28,36"/></g>` : ""}
+      ${mouth === "old" ? `<g id="${p}-mN"><path d="M -28,100 C -12,98 12,98 28,100" fill="none" stroke="#5a2a24" stroke-width="4.5" stroke-linecap="round"/></g>
+        <g id="${p}-mC" opacity="0"><path d="M -26,100 C -8,101 12,99 24,94 C 30,90 34,86 36,82" fill="none" stroke="#5a2a24" stroke-width="4.5" stroke-linecap="round"/><path d="M 30,92 C 34,96 38,96 40,92" stroke="${c.deep}" stroke-width="2.5" fill="none" opacity="0.7"/></g>`
+      : mouth === "scream" ? `<ellipse cx="0" cy="104" rx="30" ry="40" fill="#3a1212"/><path d="M -26,80 C -10,72 10,72 26,80 L 24,90 C 10,84 -10,84 -24,90 Z" fill="#fff"/><ellipse cx="0" cy="126" rx="16" ry="10" fill="#a8434a"/>`
       : mouth === "tense" ? `<path d="M -26,100 C -12,96 12,96 26,100" fill="none" stroke="#6e2c2a" stroke-width="4" stroke-linecap="round"/>`
       : grin ? `<path d="M -36,92 C -20,90 20,90 36,92 C 30,124 -30,124 -36,92 Z" fill="#5a2222"/>
         <path d="M -32,93 C -16,92 16,92 32,93 L 30,102 C 14,104 -14,104 -30,102 Z" fill="#fff"/>
@@ -210,3 +221,6 @@ export function carRear(p, { body = "#34485e", hi = "#4a6178", open = false } = 
     <g id="${p}-lid"><path d="M -250,-220 L 250,-220 L 262,-160 L -262,-160 Z" fill="${hi}"/></g>
   </g>`;
 }
+
+export const OLD = { skin: "#c48e70", skinSh: "#a3705a", deep: "#6e4232", iris: "#2e2018", hair: "#e4e0d8", hairHi: "#ffffff", shirt: "#4a3a2e", shirtSh: "#3a2c22" };
+CAST.o = { c: OLD, kind: "old", beard: true };
