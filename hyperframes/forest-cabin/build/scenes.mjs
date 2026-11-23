@@ -545,6 +545,7 @@ function g3() {
     js }) };
 }
 
+export { pine, forestRoad, mist, mistDrift, walk, armTo, nod, tw, night, topHand };
 // SVG ids repeat across shots only where a shot draws the same set piece twice; ids are prefixed per shot.
 const shots = [
   deskShot("a1", 1.6, "r", [{ x: 420, tx: 520, ty: 960, r: -20, svg: SWEATER }, { x: 640, tx: 560, ty: 940, r: 18, svg: TSHIRT }]),

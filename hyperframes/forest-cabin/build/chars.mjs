@@ -52,7 +52,7 @@ export function armT(side, a, b) {
   const sx = side * SHOULDER;
   return { u: `rotate(${a} ${sx} ${SY})`, f: `rotate(${b} ${sx} ${SY + UA})` };
 }
-function arm(p, c, side, a, b) {
+function arm(p, c, side, a, b, prop = "") {
   const sx = side * SHOULDER, t = armT(side, a, b);
   return `<g id="${p}-arm${side < 0 ? "L" : "R"}u" transform="${t.u}">
       <path d="M ${sx - 34},${SY - 10} L ${sx + 34},${SY - 10} L ${sx + 28},${SY + UA} L ${sx - 28},${SY + UA} Z" fill="${c.skin}"/>
@@ -62,13 +62,14 @@ function arm(p, c, side, a, b) {
         <circle cx="${sx}" cy="${SY + UA}" r="28" fill="${c.skin}"/>
         <path d="M ${sx - 28},${SY + UA} L ${sx + 28},${SY + UA} L ${sx + 22},${SY + UA + FA} L ${sx - 22},${SY + UA + FA} Z" fill="${c.skin}"/>
         <path d="M ${sx + side * 14},${SY + UA} L ${sx + side * 10},${SY + UA + FA}" stroke="${c.deep}" stroke-width="10" opacity="0.25"/>
+        ${prop ? `<g transform="translate(${sx},${SY + UA + FA + 30})">${prop}</g>` : ""}
         <g transform="translate(${sx},${SY + UA + FA - 6}) scale(0.95)">${hand(c, -side)}</g>
       </g>
     </g>`;
 }
 
 // A friend: c = colours, kind = hair style, beard, grin (static open smile). arms = [[aL,bL],[aR,bR]].
-export function friend(p, c, { kind = "wavy", beard = false, grin = false, arms = [[10, -55], [-10, 55]] } = {}) {
+export function friend(p, c, { kind = "wavy", beard = false, grin = false, mouth = "", propR = "", arms = [[10, -55], [-10, 55]] } = {}) {
   const eo = { iris: c.iris, deep: c.deep, skin: c.skin };
   return `
   <g id="${p}-torso">
@@ -78,7 +79,7 @@ export function friend(p, c, { kind = "wavy", beard = false, grin = false, arms 
     <path d="M 120,250 C 150,330 160,520 170,760 L 130,760 C 128,540 120,360 100,260 Z" fill="${c.shirtSh}" opacity="0.7"/>
     ${c.print ? `<g transform="translate(-10,420)" opacity="0.85">${c.print}</g>` : ""}
   </g>
-  ${arm(p, c, -1, arms[0][0], arms[0][1])}${arm(p, c, 1, arms[1][0], arms[1][1])}
+  ${arm(p, c, -1, arms[0][0], arms[0][1])}${arm(p, c, 1, arms[1][0], arms[1][1], propR)}
   <g id="${p}-head">
     <path d="M -38,110 L -40,236 C -20,250 20,250 40,236 L 38,110 Z" fill="${c.skinSh}"/>
     <path d="M -38,126 C -18,164 18,164 38,126 L 38,150 C 18,186 -18,186 -38,150 Z" fill="${c.deep}" opacity="0.45"/>
@@ -93,7 +94,9 @@ export function friend(p, c, { kind = "wavy", beard = false, grin = false, arms 
       <path id="${p}-browR" d="M 80,-28 C 64,-42 36,-46 14,-36 L 16,-28 C 36,-36 62,-32 78,-20 Z" fill="${c.hair}"/>
       <path d="M 6,12 C 9,32 13,48 17,60" fill="none" stroke="${c.deep}" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
       <path d="M -14,64 C -8,72 8,72 14,64" fill="none" stroke="${c.deep}" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-      ${grin ? `<path d="M -36,92 C -20,90 20,90 36,92 C 30,124 -30,124 -36,92 Z" fill="#5a2222"/>
+      ${mouth === "scream" ? `<ellipse cx="0" cy="104" rx="30" ry="40" fill="#3a1212"/><path d="M -26,80 C -10,72 10,72 26,80 L 24,90 C 10,84 -10,84 -24,90 Z" fill="#fff"/><ellipse cx="0" cy="126" rx="16" ry="10" fill="#a8434a"/>`
+      : mouth === "tense" ? `<path d="M -26,100 C -12,96 12,96 26,100" fill="none" stroke="#6e2c2a" stroke-width="4" stroke-linecap="round"/>`
+      : grin ? `<path d="M -36,92 C -20,90 20,90 36,92 C 30,124 -30,124 -36,92 Z" fill="#5a2222"/>
         <path d="M -32,93 C -16,92 16,92 32,93 L 30,102 C 14,104 -14,104 -30,102 Z" fill="#fff"/>
         <path d="M -40,90 C -20,88 20,88 40,90" fill="none" stroke="#6e2c2a" stroke-width="3" stroke-linecap="round"/>`
              : `<path d="M -30,94 C -16,108 16,108 30,94" fill="none" stroke="#6e2c2a" stroke-width="4" stroke-linecap="round"/>
