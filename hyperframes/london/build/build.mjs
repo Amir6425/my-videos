@@ -3,9 +3,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import shotsA from "./scenes.mjs";
+import shotsB from "./scenes2.mjs";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const shots = [...shotsA];
+const shots = [...shotsA, ...shotsB];
 const only = process.argv[2]; // optional: build only shots whose id starts with this, for quick looks
 
 fs.mkdirSync(path.join(root, "compositions"), { recursive: true });

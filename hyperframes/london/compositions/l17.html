@@ -1,0 +1,94 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
+    .l17-L { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; will-change: transform; }
+    #l17-top { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
+    #l17-tex { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0.16; mix-blend-mode: soft-light; pointer-events: none; }
+    
+  </style>
+  <div id="root" data-composition-id="l17" data-width="1080" data-height="1920">
+    
+    <svg id="l17-all" class="l17-L" viewBox="0 0 1080 1920" width="1080" height="1920" xmlns="http://www.w3.org/2000/svg" data-layout-allow-overflow>
+      <defs><radialGradient id="l17-vigBW" cx="0.5" cy="0.45" r="0.7"><stop offset="0.5" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.55"/></radialGradient></defs>
+      <rect width="1080" height="1920" fill="#000"/>
+      <g id="l17-ph" opacity="0" transform="translate(540,820)"><g><rect x="-290" y="-360" width="580" height="720" fill="#f2efe6"/>
+    <rect x="-280" y="-350" width="560" height="700" fill="#8a8a88"/>
+    <g transform="scale(560,644)"><path d="M -0.30,0.05 C -0.30,-0.30 0.30,-0.30 0.30,0.05 C 0.30,0.30 0.15,0.42 0,0.42 C -0.15,0.42 -0.30,0.30 -0.30,0.05 Z" fill="#b8b8b4"/>
+       <path d="M -0.32,-0.02 C -0.34,-0.36 0.34,-0.36 0.32,-0.02 C 0.26,-0.20 -0.26,-0.20 -0.32,-0.02 Z" fill="#1a1a1a"/>
+       <path d="M -0.13,0.26 C -0.06,0.21 0.06,0.21 0.13,0.26 C 0.06,0.29 -0.06,0.29 -0.13,0.26 Z" fill="#2a2a2a"/>
+       <path d="M -0.6,0.95 C -0.55,0.55 -0.2,0.45 0,0.45 C 0.2,0.45 0.55,0.55 0.6,0.95 Z" fill="#2c2c2e"/><path d="M -0.08,0.47 L 0,0.62 L 0.08,0.47 Z" fill="#e0e0dc"/><g fill="#1e1e1e"><ellipse cx="-0.10" cy="0.05" rx="0.035" ry="0.022"/><ellipse cx="0.10" cy="0.05" rx="0.035" ry="0.022"/></g>
+  <path d="M -0.16,-0.03 C -0.12,-0.06 -0.07,-0.06 -0.04,-0.04 M 0.16,-0.03 C 0.12,-0.06 0.07,-0.06 0.04,-0.04" stroke="#2a2a2a" stroke-width="0.022" fill="none"/>
+  <path d="M 0.01,0.06 C 0.02,0.12 0.03,0.16 0.02,0.18" stroke="#8a8a86" stroke-width="0.016" fill="none"/>
+  </g>
+    <rect x="-280" y="-350" width="560" height="700" fill="url(#l17-vigBW)"/></g></g>
+      <g id="l17-nm" opacity="0"><text x="540" y="1280" font-family="Playfair Display" font-size="76" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="4">GEORGE JOSEPH SMITH</text></g>
+    </svg>
+    <img id="l17-tex" src="assets/img/texture.png" alt="" data-layout-ignore />
+    <svg id="l17-top" viewBox="0 0 1080 1920" width="1080" height="1920" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="l17-vig" cx="50%" cy="48%" r="75%">
+        <stop offset="55%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity="0.7"/>
+      </radialGradient></defs>
+      <rect width="1080" height="1920" fill="url(#l17-vig)"/>
+      <rect id="l17-fade" width="1080" height="1920" fill="#000" opacity="0"/>
+    </svg>
+  </div>
+  <script>
+    (function () {
+    
+const tl = gsap.timeline({ paused: true });
+const ids = (p, names) => names.map((n) => "#" + p + "-" + n);
+function blink(p, t, d = 0.18) {
+  const e = ids(p, ["eyeL", "eyeR"]);
+  tl.to(e, { scaleY: 0.08, duration: d * 0.4, ease: "power2.in", transformOrigin: "50% 50%" }, t);
+  tl.to(e, { scaleY: 1, duration: d * 0.6, ease: "power2.out", transformOrigin: "50% 50%" }, t + d * 0.4);
+}
+function look(p, x, y, t, d = 0.35, ease = "power2.inOut") {
+  tl.to(ids(p, ["eyeL-iris", "eyeR-iris"]), { x, y, duration: d, ease }, t);
+}
+function mouth(p, name, t, d = 0.25) {
+  tl.to(ids(p, ["mouthN", "mouthW", "mouthS", "mouthO"]), { opacity: 0, duration: d }, t);
+  tl.to("#" + p + "-mouth" + name, { opacity: 1, duration: d }, t);
+}
+// brows: y shift (negative = raised), rot (positive = inner ends down = frown)
+function brows(p, y, rot, t, d = 0.4, ease = "power2.inOut") {
+  tl.to("#" + p + "-browL", { y, rotation: rot, transformOrigin: "50% 50%", duration: d, ease }, t);
+  tl.to("#" + p + "-browR", { y, rotation: -rot, transformOrigin: "50% 50%", duration: d, ease }, t + 0.03);
+}
+function eyesOpen(p, s, t, d = 0.35) {
+  tl.to(ids(p, ["eyeL", "eyeR"]), { scaleY: s, scaleX: 1 + (s - 1) * 0.4, transformOrigin: "50% 50%", duration: d, ease: "power2.out" }, t);
+}
+// turn: shift the features sideways (a 3/4 turn in a flat style), the fringe follows a little
+function turn(p, dx, t, d = 0.5, ease = "power2.inOut") {
+  tl.to("#" + p + "-face", { x: dx, duration: d, ease }, t);
+  tl.to("#" + p + "-hairF", { x: dx * 0.35, duration: d, ease }, t + 0.04);
+}
+// camera move on one layer (an HTML <svg>): scale/x/y around the frame centre unless an origin is given
+function cam(layer, from, to, t, d, ease = "sine.inOut") {
+  const o = { transformOrigin: to.origin || "50% 50%" }; delete to.origin; delete from.origin;
+  tl.fromTo("#" + S + "-" + layer, Object.assign({}, o, from), Object.assign({}, o, { duration: d, ease }, to), t);
+}
+function fadeIn(s, t = 0, d = 0.35) { tl.fromTo("#" + s + "-fade", { opacity: 1 }, { opacity: 0, duration: d, ease: "power1.out" }, t); }
+function fadeOut(s, t, d = 0.35) { tl.fromTo("#" + s + "-fade", { opacity: 0 }, { opacity: 1, duration: d, ease: "power1.in" }, t); }
+// deterministic flicker for candle and lamp light: a sum of sines of timeline time
+function flicker(sel, dur, base, amp) {
+  const o = { t: 0 };
+  tl.to(o, { t: dur, duration: dur, ease: "none", onUpdate() {
+    const v = base + amp * (Math.sin(o.t * 9.1) * 0.5 + Math.sin(o.t * 23.7 + 1.3) * 0.3 + Math.sin(o.t * 4.3) * 0.2);
+    gsap.set(sel, { opacity: v });
+  } }, 0);
+}
+
+    const S = "l17";
+    
+    
+    tl.fromTo("#l17-ph", { opacity: 0 }, { opacity: 1, duration: 0.9 }, 1.0);
+    tl.fromTo("#l17-nm", { opacity: 0 }, { opacity: 1, duration: 0.7 }, 2.0);
+    cam("all", { scale: 1.0, origin: "540px 720px" }, { scale: 1.0, origin: "540px 720px" }, 0, 2.6);
+    cam("all", { scale: 1.0, origin: "540px 720px" }, { scale: 2.4, origin: "540px 690px", y: 120 }, 2.8, 3.71, "power1.in");
+    
+    
+    tl.to({}, { duration: 6.61 }, 0);
+    window.__timelines["l17"] = tl;
+    })();
+  </script>
+</template>

@@ -10,9 +10,20 @@ export default function audio(shots) {
   const W = fs.existsSync(path.join(HERE, "words.json")) ? JSON.parse(fs.readFileSync(path.join(HERE, "words.json"), "utf8")) : {};
   // every word on the film's clock: shot start + the narration's offset + its time in the file
   const words = scenes.flatMap((c) => (W[c.shot]?.words || []).map((w) => ({ ...w, start: w.start + starts[c.shot] + c.offset, end: w.end + starts[c.shot] + c.offset })));
+  // the long narration (plans 3–19) starts at its first shot plus a short lead-in
+  const LJ = path.join(HERE, "words_long.json");
+  let longTag = "";
+  if (fs.existsSync(LJ)) {
+    const WLg = JSON.parse(fs.readFileSync(LJ, "utf8")), first = WLg.shots[0].shot;
+    if (starts[first] !== undefined) {
+      const t0 = starts[first] + WLg.lead;
+      WLg.shots.forEach((s) => s.words.forEach((w) => words.push({ ...w, start: w.start + t0, end: w.end + t0 })));
+      longTag = `      <audio id="narration-long" class="clip" src="assets/audio/narration-final.mp3" data-start="${t0.toFixed(2)}" data-duration="${WLg.duration.toFixed(3)}" data-track-index="6" data-volume="1"></audio>\n`;
+    }
+  }
   if (words.length) writeCaptions(words, 0, total);
-  return scenes.map((c, i) => `      <audio id="narration-${i + 1}" class="clip" src="${c.audio}" data-start="${(starts[c.shot] + c.offset).toFixed(2)}"${W[c.shot]?.duration ? ` data-duration="${W[c.shot].duration}"` : ""} data-track-index="4" data-volume="1"></audio>`).join("\n") + `
-      <audio id="bed" class="clip" src="assets/audio/bed.mp3" data-start="0" data-duration="${total}" data-track-index="3" data-volume="0.05"></audio>
+  return longTag + scenes.map((c, i) => `      <audio id="narration-${i + 1}" class="clip" src="${c.audio}" data-start="${(starts[c.shot] + c.offset).toFixed(2)}"${W[c.shot]?.duration ? ` data-duration="${W[c.shot].duration}"` : ""} data-track-index="4" data-volume="1"></audio>`).join("\n") + `
+      <audio id="bed" class="clip" src="assets/audio/bed.mp3" data-start="0" data-duration="${total}" data-track-index="3" data-volume="0.01"></audio>
       ${fs.existsSync(path.join(HERE, "..", "assets", "audio", "sfx.mp3")) ? `<audio id="sfx" class="clip" src="assets/audio/sfx.mp3" data-start="0" data-duration="${total}" data-track-index="5" data-volume="0.35"></audio>` : ""}
 ${words.length ? `      <div id="cap" data-composition-id="cap" data-composition-src="compositions/cap.html" data-start="0" data-duration="${total}" data-track-index="2" data-track-kind="captions" data-width="1080" data-height="1920"></div>` : ""}`;
 }

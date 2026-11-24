@@ -60,12 +60,13 @@ export function armT(side, a, b) {
 function arm(p, c, side, a, b, prop = "") {
   const sx = side * SHOULDER, t = armT(side, a, b);
   return `<g id="${p}-arm${side < 0 ? "L" : "R"}u" transform="${t.u}">
-      <path d="M ${sx - 34},${SY - 10} L ${sx + 34},${SY - 10} L ${sx + 28},${SY + UA} L ${sx - 28},${SY + UA} Z" fill="${c.skin}"/>
+      <path d="M ${sx - 34},${SY - 10} L ${sx + 34},${SY - 10} L ${sx + 28},${SY + UA} L ${sx - 28},${SY + UA} Z" fill="${c.long ? c.shirt : c.skin}"/>
       <path d="M ${sx - 38},${SY - 16} L ${sx + 38},${SY - 16} L ${sx + 34},${SY + 70} L ${sx - 34},${SY + 70} Z" fill="${c.shirt}"/>
       <path d="M ${sx - 34},${SY + 64} L ${sx + 34},${SY + 64} L ${sx + 34},${SY + 72} L ${sx - 34},${SY + 72} Z" fill="${c.shirtSh}"/>
       <g id="${p}-arm${side < 0 ? "L" : "R"}f" transform="${t.f}">
-        <circle cx="${sx}" cy="${SY + UA}" r="28" fill="${c.skin}"/>
-        <path d="M ${sx - 28},${SY + UA} L ${sx + 28},${SY + UA} L ${sx + 22},${SY + UA + FA} L ${sx - 22},${SY + UA + FA} Z" fill="${c.skin}"/>
+        <circle cx="${sx}" cy="${SY + UA}" r="28" fill="${c.long ? c.shirtSh : c.skin}"/>
+        <path d="M ${sx - 28},${SY + UA} L ${sx + 28},${SY + UA} L ${sx + 22},${SY + UA + FA} L ${sx - 22},${SY + UA + FA} Z" fill="${c.long ? c.shirtSh : c.skin}"/>
+        ${c.long ? `<rect x="${sx - 24}" y="${SY + UA + FA - 22}" width="48" height="14" fill="${c.cuff || "#e8e6e0"}"/>` : ""}
         <path d="M ${sx + side * 14},${SY + UA} L ${sx + side * 10},${SY + UA + FA}" stroke="${c.deep}" stroke-width="10" opacity="0.25"/>
         ${prop ? `<g transform="translate(${sx},${SY + UA + FA + 30})">${prop}</g>` : ""}
         <g transform="translate(${sx},${SY + UA + FA - 6}) scale(0.95)">${hand(c, -side)}</g>
@@ -74,7 +75,7 @@ function arm(p, c, side, a, b, prop = "") {
 }
 
 // A friend: c = colours, kind = hair style, beard, grin (static open smile). arms = [[aL,bL],[aR,bR]].
-export function friend(p, c, { kind = "wavy", beard = false, grin = false, mouth = "", propR = "", wrinkles = false, arms = [[10, -55], [-10, 55]] } = {}) {
+export function friend(p, c, { kind = "wavy", beard = false, grin = false, mouth = "", propR = "", wrinkles = false, headExtra = "", torsoExtra = "", arms = [[10, -55], [-10, 55]] } = {}) {
   const eo = { iris: c.iris, deep: c.deep, skin: c.skin };
   return `
   <g id="${p}-torso">
@@ -83,6 +84,7 @@ export function friend(p, c, { kind = "wavy", beard = false, grin = false, mouth
     <path d="M -50,222 C -32,268 32,268 50,222" fill="none" stroke="${c.shirtSh}" stroke-width="10"/>
     <path d="M 120,250 C 150,330 160,520 170,760 L 130,760 C 128,540 120,360 100,260 Z" fill="${c.shirtSh}" opacity="0.7"/>
     ${c.print ? `<g transform="translate(-10,420)" opacity="0.85">${c.print}</g>` : ""}
+    ${torsoExtra}
   </g>
   ${arm(p, c, -1, arms[0][0], arms[0][1])}${arm(p, c, 1, arms[1][0], arms[1][1], propR)}
   <g id="${p}-head">
@@ -115,6 +117,7 @@ export function friend(p, c, { kind = "wavy", beard = false, grin = false, mouth
       <path d="M -40,88 C -44,84 -46,80 -44,76 M 40,88 C 44,84 46,80 44,76" stroke="${c.deep}" stroke-width="2.4" fill="none" opacity="0.5" stroke-linecap="round"/>
     </g>
     <g id="${p}-hairF">${hair(kind, c)}</g>
+    ${headExtra}
   </g>`;
 }
 

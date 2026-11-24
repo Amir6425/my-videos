@@ -11,6 +11,10 @@ SC = json.load(open(os.path.join(HERE, "narration.json")))["scenes"]
 WJ = os.path.join(HERE, "words.json"); WD = json.load(open(WJ)) if os.path.exists(WJ) else {}
 # all words on the film's clock (OFF = 0 below because times are already absolute)
 words = [dict(w, start=w["start"] + STARTS[c["shot"]] + c["offset"], end=w["end"] + STARTS[c["shot"]] + c["offset"]) for c in SC if c["shot"] in STARTS for w in WD.get(c["shot"], {}).get("words", [])]
+LJ = os.path.join(HERE, "words_long.json")
+if os.path.exists(LJ) and "l3" in STARTS:
+    WLg = json.load(open(LJ)); t0 = STARTS[WLg["shots"][0]["shot"]] + WLg["lead"]
+    words += [dict(w, start=w["start"] + t0, end=w["end"] + t0) for s in WLg["shots"] for w in s["words"]]
 OFF = 0.0
 def band(x, lo, hi):
     X = np.fft.rfft(x); f = np.fft.rfftfreq(len(x), 1 / SR); return np.fft.irfft(X / (1 + (lo / np.maximum(f, 1)) ** 4) / (1 + (f / hi) ** 4), len(x))
@@ -63,6 +67,19 @@ if "l2" in STARTS:
         at = STARTS["l2"] + 0.8 + k * 1.6 + 0.3; d = np.arange(int(0.25 * SR)) / SR
         f = 1400 * np.exp(-d * 6) + 700
         put(sfx, at, np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-d * 28), 0.8)
+# heartbeat on the black screen of plan 17
+if "l17" in STARTS:
+    for k in range(int(DUR17 / 0.85) if (DUR17 := TM["starts"].get("l18", TOTAL) - STARTS["l17"]) else 0):
+        for j, dt in enumerate((0, 0.17)):
+            d = np.arange(int(0.22 * SR)) / SR; put(sfx, STARTS["l17"] + 0.2 + k * 0.85 + dt, np.sin(2 * np.pi * 50 * d) * np.exp(-d * 20), 0.9 - j * 0.35)
+# the judge's gavel in plan 18
+if "l18" in STARTS:
+    a18 = STARTS["l18"] + (TM["starts"].get("l19", TOTAL) - STARTS["l18"]) * 0.33 + 0.58; d = np.arange(int(0.5 * SR)) / SR
+    put(sfx, a18, (np.sin(2 * np.pi * 180 * d) * np.exp(-d * 18) + band(rng.standard_normal(len(d)), 300, 3000) * np.exp(-d * 40)) * 1.0)
+# the like tap in the outro
+if "l19" in STARTS:
+    d = np.arange(int(0.12 * SR)) / SR; put(sfx, STARTS["l19"] + 0.98, np.sin(2 * np.pi * 1200 * d) * np.exp(-d * 40), 0.5)
+    put(sfx, STARTS["l19"] + 2.05, np.sin(2 * np.pi * 900 * d) * np.exp(-d * 40), 0.4)
 sfx = sfx / (np.max(np.abs(sfx)) or 1) * 0.8
 wav2 = os.path.join(OUT, "sfx.wav")
 with wave.open(wav2, "wb") as wf:
