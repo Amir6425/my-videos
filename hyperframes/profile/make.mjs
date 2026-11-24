@@ -31,7 +31,7 @@ ${bust("r", "r", 540, 560, 0.9)}
 <rect y="700" width="1080" height="380" fill="url(#shade)"/>
 <defs><filter id="sh" x="-20%" y="-50%" width="140%" height="200%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.85"/></filter></defs>
 <rect x="230" y="852" width="620" height="124" rx="22" fill="#000"/>
-<text x="540" y="938" font-family="'Pacifico'" font-size="86" fill="#fff" text-anchor="middle">Rarze_Dastan</text>
+<text x="540" y="938" font-family="'Pacifico'" font-size="86" fill="#fff" text-anchor="middle">Raze.Dastan</text>
 </svg>`;
 fs.writeFileSync("profile.svg", svg);
 fs.writeFileSync("profile.html", `<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Pacifico&display=block" rel="stylesheet"><style>html,body{margin:0;background:#000}</style></head><body>${svg}</body></html>`);
