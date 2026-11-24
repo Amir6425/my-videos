@@ -1,1 +1,13 @@
-{ "audio": "assets/audio/narration-01.mp3", "offset": 0.4, "text": "" }
+{
+ "audio": "assets/audio/narration-01.mp3",
+ "offset": 0.4,
+ "text": "انگلستان، سال ۱۹۱۵… پلیس با پرونده‌ای روبه‌رو شده بود که هیچ توضیح منطقی‌ای برایش نداشت.",
+ "groups": [
+  1,
+  2,
+  12
+ ],
+ "spoken": {
+  "۱۹۱۵…": "هزارونهصدوپونزده"
+ }
+}

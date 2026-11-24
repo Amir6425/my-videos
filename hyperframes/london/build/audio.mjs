@@ -15,8 +15,9 @@ ${caps ? `      <div id="cap" data-composition-id="cap" data-composition-src="co
 
 // Word-by-word captions: pages of up to 4 words; the word being spoken turns red and grows a little.
 function writeCaptions(words, offset, total) {
+  // a new line at each pause of the narrator (> 0.4 s) or after 4 words
   const pages = [];
-  for (let i = 0; i < words.length; i += 4) pages.push(words.slice(i, i + 4));
+  words.forEach((w, i) => { if (!pages.length || pages[pages.length - 1].length >= 4 || w.start - words[i - 1].end > 0.4) pages.push([]); pages[pages.length - 1].push(w); });
   const html = pages.map((pg, pi) => `<div class="cap-page" id="cap-p${pi}">${pg.map((w, wi) => `<span class="cap-w" id="cap-w${pi}-${wi}">${w.w}</span>`).join(" ")}</div>`).join("");
   let js = "";
   pages.forEach((pg, pi) => {
@@ -25,7 +26,7 @@ function writeCaptions(words, offset, total) {
     js += `tl.to("#cap-p${pi}", { opacity: 0, filter: "blur(6px)", duration: 0.12, ease: "power2.in" }, ${(b - 0.12).toFixed(3)});\n`;
     pg.forEach((w, wi) => {
       const s0 = w.start + offset, e0 = w.end + offset;
-      js += `tl.fromTo("#cap-w${pi}-${wi}", { color: "#ffffff", scale: 1 }, { color: "#ff3d33", scale: 1.12, duration: 0.07, ease: "power2.out" }, ${s0.toFixed(3)});\n`;
+      js += `tl.fromTo("#cap-w${pi}-${wi}", { color: "#ffffff", scale: 1 }, { color: "#ffd873", scale: 1.1, duration: 0.07, ease: "power2.out" }, ${s0.toFixed(3)});\n`;
       js += `tl.to("#cap-w${pi}-${wi}", { color: "#ffffff", scale: 1, duration: 0.1, ease: "power2.in" }, ${Math.max(s0 + 0.08, e0).toFixed(3)});\n`;
     });
   });
@@ -33,8 +34,8 @@ function writeCaptions(words, offset, total) {
   <style>
     @font-face { font-family: "IRANSans"; src: url('assets/fonts/IRANSans-Black.ttf') format('truetype'); font-weight: 900; }
     #root { position: absolute; inset: 0; pointer-events: none; }
-    .cap-page { position: absolute; left: 90px; right: 90px; top: 1150px; text-align: center; direction: rtl; opacity: 0;
-      font-family: "IRANSans", sans-serif; font-weight: 900; font-size: 74px; line-height: 1.5; color: #fff;
+    .cap-page { position: absolute; left: 90px; right: 90px; top: 1430px; text-align: center; direction: rtl; opacity: 0;
+      font-family: "IRANSans", sans-serif; font-weight: 900; font-size: 60px; line-height: 1.5; color: #fff;
       text-shadow: 0 4px 14px rgba(0,0,0,0.85), 0 0 3px rgba(0,0,0,0.9); }
     .cap-w { display: inline-block; margin: 0 8px; }
   </style>

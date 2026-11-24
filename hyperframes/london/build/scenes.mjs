@@ -166,8 +166,8 @@ function l1() {
         <circle cx="${tx.toFixed(1)}" cy="${ty.toFixed(1)}" r="90" fill="url(#${id}-winG)" style="mix-blend-mode:screen"/>
         <rect width="1080" height="1920" fill="#0a1430" opacity="0.3" style="mix-blend-mode:multiply"/>` },
       { name: "fogfar", defs: `<radialGradient id="${id}-fogG"><stop offset="0" stop-color="#9aa6b8" stop-opacity="0.85"/><stop offset="0.6" stop-color="#9aa6b8" stop-opacity="0.35"/><stop offset="1" stop-color="#9aa6b8" stop-opacity="0"/></radialGradient>`,
-        svg: ROWS.map((row, i) => fog(2, row.y - 40, 80, 0.42, 10 + i)).join("").replace(/fg(\d+)-/g, (m, a) => `fg1-`).replace(/id="l1-fg1-\d+"/g, ((c) => () => `id="l1-fg1-${c++}"`)(0)) },
-      { name: "fognear", blur: 10, svg: fog(8, 300, 1500, 0.4, 2) },
+        svg: ROWS.map((row, i) => fog(2, row.y - 40, 80, 0.26, 10 + i)).join("").replace(/fg(\d+)-/g, (m, a) => `fg1-`).replace(/id="l1-fg1-\d+"/g, ((c) => () => `id="l1-fg1-${c++}"`)(0)) },
+      { name: "fognear", blur: 10, svg: fog(8, 300, 1500, 0.22, 2) },
     ],
     js: js.replace(`${fogJs(10, 1, 140, dur)}`, fogJs(12, 1, 140, dur)) }) };
 }
