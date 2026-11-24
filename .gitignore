@@ -3,3 +3,4 @@ out/
 .env
 hyperframes/*/renders/
 hyperframes/*/.hyperframes/
+hyperframes/london/assets/fonts/IRANSans-Black.ttf
