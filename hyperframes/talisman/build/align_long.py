@@ -5,7 +5,9 @@ Run: python3 build/align_long.py"""
 import json, os, re, subprocess
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(HERE, "..")
-cfg = json.load(open(os.path.join(HERE, "long.json")))
+import sys
+CFG = sys.argv[1] if len(sys.argv) > 1 else "long.json"
+cfg = json.load(open(os.path.join(HERE, CFG)))
 AUD = os.path.join(ROOT, cfg["audio"])
 log = subprocess.run(["ffmpeg", "-nostdin", "-i", AUD, "-af", "silencedetect=noise=-35dB:d=0.22", "-f", "null", "-"], capture_output=True, text=True).stderr
 ss = [float(v) for v in re.findall(r"silence_start: ([\d.]+)", log)]; se = [float(v) for v in re.findall(r"silence_end: ([\d.]+)", log)]
@@ -53,6 +55,7 @@ out = {"duration": dur, "lead": cfg["lead"], "tail": cfg["tail"], "shots": []}
 for si, s in enumerate(cfg["shots"]):
     idx = [i for i in range(N) if SH[i] == si]
     out["shots"].append({"shot": s["shot"], "words": [{"w": W[i], "start": times[i][0], "end": times[i][1]} for i in idx]})
+out["config"] = CFG
 json.dump(out, open(os.path.join(HERE, "words_long.json"), "w"), ensure_ascii=False, indent=1)
 for s in out["shots"]:
     ws = s["words"]; print(f'{s["shot"]:4} {ws[0]["start"]:7.2f}-{ws[-1]["end"]:7.2f}  {ws[0]["w"]} … {ws[-1]["w"]}')

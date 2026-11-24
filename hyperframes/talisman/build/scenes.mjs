@@ -3,6 +3,7 @@
 import { scene, place, glow } from "./lib.mjs";
 import * as C from "../../fortune-teller-2/build/chars.mjs";
 import { roomBehindGirl, roomBehindMan, table, crystalBall, candle, DEFS, light, R } from "../../fortune-teller-2/build/scene1.mjs";
+import { taxi, buildings } from "../../fortune-teller/build/scene2.mjs";
 const P = C.PAL;
 
 const girl = (p) => `<g id="${p}-tor">${C.girlBody(p, { coat: true })}</g>${C.girlHead(p, { freckles: true })}`;
@@ -155,5 +156,192 @@ function t6(dur) {
     ` }) };
 }
 
-const DURS = { t2: 4.0, t3: 5.0, t4: 6.0, t5: 6.0, t6: 5.0 };
-export default [t2(DURS.t2), t3(DURS.t3), t4(DURS.t4), t5(DURS.t5), t6(DURS.t6)].map(uniq);
+// ── her full figure (wide shots): red coat to the knee, dark tights, the same head as the close-ups ────
+function girlFull(p, { paper = true } = {}) {
+  const leg = (id, x) => `<g id="${id}"><path d="M ${x - 15},-330 L ${x + 15},-330 L ${x + 12},-30 L ${x - 12},-30 Z" fill="#1c1a20"/><path d="M ${x - 14},-34 L ${x + 14},-34 C ${x + 22},-20 ${x + 28},-8 ${x + 28},0 L ${x - 16},0 Z" fill="#141216"/></g>`;
+  return `<g id="${p}-body">${leg(`${p}-legL`, -24)}${leg(`${p}-legR`, 24)}
+    <path d="M -58,-800 C -82,-790 -90,-760 -88,-720 L -100,-320 C -40,-306 40,-306 100,-320 L 88,-720 C 90,-760 82,-790 58,-800 Z" fill="#8e1a1e"/>
+    <path d="M -22,-800 L 22,-800 L 12,-560 L -12,-560 Z" fill="${P.dress}"/><path d="M -40,-800 L -10,-560 L -8,-320 L -30,-320 Z" fill="#7a1418"/><path d="M 40,-800 L 10,-560 L 8,-320 L 30,-320 Z" fill="#7a1418"/>
+    <g id="${p}-armL"><path d="M -86,-790 C -110,-770 -112,-700 -108,-640 L -100,-480 L -72,-480 L -66,-760 Z" fill="#8e1a1e"/><ellipse cx="-86" cy="-458" rx="15" ry="24" fill="${P.skin}"/></g>
+    <g id="${p}-armR"><path d="M 86,-790 C 110,-770 112,-700 108,-640 L 100,-480 L 72,-480 L 66,-760 Z" fill="#7a1418"/><ellipse cx="86" cy="-458" rx="15" ry="24" fill="${P.skinSh}"/>
+      ${paper ? `<rect x="66" y="-470" width="30" height="20" fill="#c8b48a"/>` : ""}</g>
+    <g transform="translate(0,-880) scale(0.3)">${C.girlHead(`${p}-h`, { freckles: true })}</g></g>`;
+}
+const FONTS2 = `@font-face { font-family: "Caveat"; src: url('assets/fonts/Caveat.woff2') format('woff2'); }`;
+
+// ── 7. the street, a taxi stops, she gets in; then inside, the paper in her hand, her mind elsewhere ─
+function t7(dur) {
+  const id = "t7", f = `${id}-f`, t = `${id}-t`, g = `${id}-g`, cut = 4.3;
+  const stopX = 120, carY = 1478;
+  const T = (x, y, s) => `translate(${x},${y}) scale(${s})`;
+  return { id, dur, html: scene({ id, dur, bg: "#0d1326", vignette: 0.85,
+    layers: [
+      { name: "street", defs: `<linearGradient id="${id}-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2a4a"/><stop offset="1" stop-color="#e09a6a"/></linearGradient>`, svg: `<g id="${id}-wide">
+        <rect width="1080" height="1920" fill="url(#${id}-sky)"/>${buildings(3)}
+        <rect x="0" y="1100" width="1080" height="70" fill="#2a2e3b"/><rect x="0" y="1178" width="1080" height="330" fill="#1c1f29"/>
+        ${[...Array(6)].map((_, i) => `<rect x="${i * 220 - 40}" y="1330" width="120" height="10" fill="#c9c6b8" opacity="0.5"/>`).join("")}
+        <rect x="0" y="1508" width="1080" height="18" fill="#4a4f5e"/><rect x="0" y="1526" width="1080" height="400" fill="#2b2f3c"/>
+        <g id="${t}-pos" transform="translate(-1000,${carY})">${taxi(t)}</g>
+        <g id="${f}-pos" transform="${T(300, 1650, 0.46)}"><g id="${f}">${girlFull(f)}</g></g></g>` },
+      { name: "inside", defs: `<linearGradient id="${id}-win" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1a1e2e"/><stop offset="1" stop-color="#2a2a44"/></linearGradient>`, svg: `<g id="${id}-in" opacity="0">
+        <rect width="1080" height="1920" fill="#14141a"/>
+        <rect x="560" y="300" width="560" height="900" rx="40" fill="url(#${id}-win)"/>
+        ${[...Array(8)].map((_, i) => `<rect id="${id}-st${i}" x="${600 + (i * 67) % 480}" y="${380 + (i * 113) % 760}" width="${120 + (i % 3) * 60}" height="10" rx="5" fill="${i % 3 ? "#ffd27a" : "#ff8a5a"}" opacity="0.6"/>`).join("")}
+        <rect x="540" y="280" width="40" height="940" fill="#0e0e12"/>
+        ${place(420, 900, 1.25, `<g id="${g}-tor">${C.girlBody(g, { coat: true })}</g>${C.girlHead(g, { freckles: true })}`, `${g}-all`)}
+        <g transform="translate(420,1580)"><rect x="-90" y="-50" width="180" height="100" fill="#c8b48a"/><path d="M -90,-50 L 90,-50" stroke="#a8946a" stroke-width="6"/></g>
+        <rect width="1080" height="1920" fill="#3a2a5a" opacity="0.25" style="mix-blend-mode:multiply"/></g>` },
+    ],
+    js: `
+    cam("street", { scale: 1.3, origin: "45% 74%" }, { scale: 1.36, x: -14, origin: "45% 74%" }, 0, ${cut});
+    tl.fromTo("#${t}-pos", { attr: { transform: "translate(-1000,${carY})" } }, { attr: { transform: "translate(${stopX},${carY})" }, duration: 2.0, ease: "power2.out" }, 0);
+    tl.fromTo(["#${t}-wb", "#${t}-wf"], { rotation: 0 }, { rotation: 590, duration: 2.0, ease: "power2.out", transformOrigin: "50% 50%" }, 0);
+    look("${f}-h", -8, 1, 0, 0.01);
+    tl.fromTo("#${f}-pos", { attr: { transform: "${T(300, 1650, 0.46)}" } }, { attr: { transform: "${T(420, 1646, 0.46)}" }, duration: 0.8, ease: "power1.inOut" }, 2.0);
+    tl.fromTo("#${t}-door", { scaleX: 1 }, { scaleX: 0.2, transformOrigin: "100% 50%", duration: 0.45, ease: "power2.inOut" }, 2.6);
+    tl.to("#${f}-pos", { attr: { transform: "${T(510, 1560, 0.4)}" }, duration: 0.5, ease: "power1.in" }, 3.0);
+    tl.to("#${f}", { opacity: 0, duration: 0.2 }, 3.35);
+    tl.to("#${t}-door", { scaleX: 1, transformOrigin: "100% 50%", duration: 0.3, ease: "power3.in" }, 3.7);
+    tl.to("#${t}-pos", { attr: { transform: "translate(500,${carY})" }, duration: 0.6, ease: "power2.in" }, 3.9);
+    tl.set("#${id}-in", { opacity: 1 }, ${cut}); tl.set("#${id}-wide", { opacity: 0 }, ${cut});
+    ${[...Array(8)].map((_, i) => `tl.fromTo("#${id}-st${i}", { x: 0 }, { x: ${-700 - (i % 3) * 200}, duration: ${(dur - cut).toFixed(2)}, ease: "none" }, ${cut});`).join(" ")}
+    look("${g}", 2, 9, ${cut}, 0.01); brows("${g}", -8, -8, ${cut}, 0.01); eyesOpen("${g}", 0.9, ${cut}, 0.01);
+    tl.fromTo("#${g}-all", { y: 0 }, { y: 4, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: ${Math.floor((dur - cut) / 0.25) - 1} }, ${cut});
+    blink("${g}", ${(cut + 1.4).toFixed(2)}, 0.3); look("${g}", 8, 0, ${(cut + 2.2).toFixed(2)}, 0.5);
+    cam("inside", { scale: 1.0, origin: "420px 1000px" }, { scale: 1.08, origin: "420px 1000px" }, ${cut}, ${(dur - cut).toFixed(2)});
+    ` }) };
+}
+
+// her lying on her back, from above (head at the top): bob hair spread on the pillow, the coat off
+function lying(p, { armReach = false } = {}) {
+  return `<path d="M -190,-90 C -220,-260 220,-260 190,-90 C 210,0 200,90 170,130 C 100,170 -100,170 -170,130 C -200,90 -210,0 -190,-90 Z" fill="${P.hair}"/>
+    <path d="M -150,-200 C -80,-250 80,-250 150,-200" stroke="${P.hairHi}" stroke-width="12" fill="none" opacity="0.8"/>
+    <g id="${p}-tor">${C.girlBody(p)}</g>${C.girlHead(p, { freckles: true })}`;
+}
+function bedTop(id, { paperOn = true } = {}) {
+  return `<rect width="1080" height="1920" fill="#1a1626"/>
+    <rect x="70" y="120" width="830" height="1900" rx="20" fill="#3a2a2a"/><rect x="96" y="220" width="778" height="1800" rx="16" fill="#cfc6d8"/>
+    <path d="M 160,250 C 160,200 820,200 820,250 L 820,560 C 820,610 160,610 160,560 Z" fill="#e6e0ea"/>
+    <rect x="840" y="300" width="250" height="420" rx="12" fill="#4a3a30"/>
+    ${paperOn ? `<g id="${id}-spaper" transform="translate(905,560) rotate(-8)"><rect x="-56" y="-38" width="112" height="76" fill="#c8b48a"/><path d="M -56,-38 L 56,-38" stroke="#a8946a" stroke-width="5"/></g>` : ""}
+    <circle cx="1010" cy="420" r="62" fill="#d8ccb2"/>`;
+}
+const blanket = (y) => `<path d="M 90,${y + 30} C 300,${y - 10} 600,${y + 10} 860,${y - 4} L 900,1960 L 60,1960 Z" fill="#6a2a3a"/>
+  <path d="M 90,${y + 30} C 300,${y - 10} 600,${y + 10} 860,${y - 4} L 864,${y + 60} C 600,${y + 76} 300,${y + 56} 92,${y + 96} Z" fill="#e6e0ea"/>
+  ${[...Array(9)].map((_, i) => `<circle cx="${130 + i * 86}" cy="${y + 200}" r="10" fill="#8a3a4a"/>`).join("")}`;
+const moon = (id) => `<defs><linearGradient id="${id}-mn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9fb8ff" stop-opacity="0.16"/><stop offset="1" stop-color="#9fb8ff" stop-opacity="0"/></linearGradient></defs>
+  ${[0, 1, 2, 3].map((i) => `<path d="M ${-200 + i * 190},0 L ${-60 + i * 190},0 L ${560 + i * 190},1920 L ${420 + i * 190},1920 Z" fill="url(#${id}-mn)"/>`).join("")}`;
+
+// ── 8. night; lying in bed, eyes on the ceiling, lost in thought ─────────────────────────────────────
+function t8(dur) {
+  const id = "t8", g = `${id}-g`;
+  return { id, dur, html: scene({ id, dur, fadeIn: true, bg: "#14101c", vignette: 0.85,
+    layers: [{ name: "bed", svg: `${bedTop(id)}${place(470, 470, 0.9, lying(g))}${blanket(1000)}${moon(id)}<rect width="1080" height="1920" fill="#1a1440" opacity="0.35" style="mix-blend-mode:multiply"/>` }],
+    js: `
+    cam("bed", { scale: 1.0, rotation: 2 }, { scale: 1.1, rotation: 0, y: 30 }, 0, ${dur});
+    look("${g}", -2, -6, 0, 0.01); eyesOpen("${g}", 0.92, 0, 0.01); brows("${g}", -6, -6, 0, 0.01);
+    tl.fromTo("#${g}-tor", { scaleY: 1 }, { scaleY: 1.015, transformOrigin: "50% 0%", duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 2 }, 0);
+    blink("${g}", 1.6, 0.34); look("${g}", 3, -7, 2.4, 0.9); blink("${g}", 3.8, 0.34);
+    ` }) };
+}
+
+// 7-segment digits for the wall clock
+const SEG = { a: [[0, 0], [1, 0]], b: [[1, 0], [1, 1]], c: [[1, 1], [1, 2]], d: [[0, 2], [1, 2]], e: [[0, 1], [0, 2]], f: [[0, 0], [0, 1]], g: [[0, 1], [1, 1]] };
+const DIG = { 0: "abcdef", 1: "bc", 2: "abged", 3: "abgcd" };
+const digit = (x, y, n, w = 110, h = 100, th = 20) => Object.entries(SEG).map(([k, [[x1, y1], [x2, y2]]]) => {
+  const on = DIG[n].includes(k), X1 = x + x1 * w, Y1 = y + y1 * h, X2 = x + x2 * w, Y2 = y + y2 * h, hz = Y1 === Y2;
+  const pts = hz ? `${X1 + 8},${Y1} ${X1 + 8 + th / 2},${Y1 - th / 2} ${X2 - 8 - th / 2},${Y1 - th / 2} ${X2 - 8},${Y1} ${X2 - 8 - th / 2},${Y1 + th / 2} ${X1 + 8 + th / 2},${Y1 + th / 2}`
+                 : `${X1},${Y1 + 8} ${X1 + th / 2},${Y1 + 8 + th / 2} ${X1 + th / 2},${Y2 - 8 - th / 2} ${X1},${Y2 - 8} ${X1 - th / 2},${Y2 - 8 - th / 2} ${X1 - th / 2},${Y1 + 8 + th / 2}`;
+  return `<polygon points="${pts}" fill="${on ? "#ff3b30" : "#3a1412"}" opacity="${on ? 1 : 0.5}"/>`;
+}).join("");
+
+// ── 9. she looks at the wall clock: 23:00; she grabs the paper, opens it, stares ─────────────────────
+function t9(dur) {
+  const id = "t9", g = `${id}-g`, g2 = `${id}-g2`, g3 = `${id}-g3`;
+  const A = 2.3, B = 4.0, Cc = 7.1; // phase cuts: look → clock → open → reaction
+  const held = `<g id="${id}-held" opacity="0"><g transform="translate(470,1060) rotate(-4)"><rect x="-130" y="-60" width="260" height="120" fill="#c8b48a"/><g id="${id}-flap"><rect x="-130" y="-180" width="260" height="120" fill="#d8c69c"/></g>
+    <path d="M -130,-60 L 130,-60" stroke="#a8946a" stroke-width="4"/></g></g>`;
+  return { id, dur, html: scene({ id, dur, bg: "#14101c", vignette: 0.85,
+    layers: [
+      { name: "a", svg: `<g id="${id}-pa">${bedTop(id)}${place(470, 470, 0.9, lying(g))}${blanket(1000)}${moon(id)}<rect width="1080" height="1920" fill="#1a1440" opacity="0.35" style="mix-blend-mode:multiply"/></g>` },
+      { name: "b", svg: `<g id="${id}-pb" opacity="0"><rect width="1080" height="1920" fill="#1e1a2a"/><rect x="0" y="0" width="1080" height="1920" fill="#2a2440"/>
+        <rect x="140" y="760" width="800" height="400" rx="40" fill="#121216"/><rect x="172" y="792" width="736" height="336" rx="24" fill="#0a0a0c"/>
+        ${digit(220, 860, 2)}${digit(380, 860, 3)}<g id="${id}-colon"><circle cx="540" cy="915" r="13" fill="#ff3b30"/><circle cx="540" cy="1005" r="13" fill="#ff3b30"/></g>${digit(580, 860, 0)}${digit(740, 860, 0)}
+        <rect width="1080" height="1920" fill="url(#${id}-rg)" style="mix-blend-mode:screen"/></g>`, defs: glow(`${id}-rg`, 540, 960, 600, "#ff3b30", 0.3) },
+      { name: "c", svg: `<g id="${id}-pc" opacity="0">${bedTop(id)}${place(470, 470, 0.9, lying(g2))}${blanket(1000)}${held}
+        <g id="${id}-arm" transform="translate(0,0)"><path id="${id}-armp" d="M 610,700 L 700,700 L 900,560 L 860,520 Z" fill="${P.skinSh}" opacity="0"/></g>${moon(id)}<rect width="1080" height="1920" fill="#1a1440" opacity="0.3" style="mix-blend-mode:multiply"/></g>` },
+      { name: "d", svg: `<g id="${id}-pd" opacity="0"><rect width="1080" height="1920" fill="#cfc6d8"/><path d="M -60,200 C -60,80 1140,80 1140,200 L 1140,1500 C 1140,1640 -60,1640 -60,1500 Z" fill="#e6e0ea"/>
+        ${place(540, 820, 2.2, lying(g3))}<g transform="translate(540,1840) rotate(2)"><rect x="-420" y="-180" width="840" height="360" fill="#c8b48a"/></g>
+        <rect width="1080" height="1920" fill="#1a1440" opacity="0.3" style="mix-blend-mode:multiply"/></g>` },
+    ],
+    js: `
+    look("${g}", -2, -6, 0, 0.01); eyesOpen("${g}", 0.92, 0, 0.01);
+    look("${g}", 9, -2, 0.5, 0.4); turn("${g}", 10, 0.5, 0.5);
+    cam("a", { scale: 1.05 }, { scale: 1.12 }, 0, ${A});
+    tl.set("#${id}-pa", { opacity: 0 }, ${A}); tl.set("#${id}-pb", { opacity: 1 }, ${A});
+    cam("b", { scale: 1.0 }, { scale: 1.1 }, ${A}, ${(B - A).toFixed(2)});
+    tl.set("#${id}-colon", { opacity: 0.3 }, ${(A + 0.8).toFixed(2)}); tl.set("#${id}-colon", { opacity: 1 }, ${(A + 1.05).toFixed(2)});
+    tl.set("#${id}-pb", { opacity: 0 }, ${B}); tl.set("#${id}-pc", { opacity: 1 }, ${B});
+    look("${g2}", 9, 2, ${B}, 0.01); turn("${g2}", 10, ${B}, 0.01); eyesOpen("${g2}", 1.1, ${B}, 0.01);
+    tl.fromTo("#${id}-armp", { opacity: 0 }, { opacity: 1, duration: 0.2 }, ${(B + 0.2).toFixed(2)});
+    tl.set("#${id}-spaper", { opacity: 0 }, ${(B + 0.7).toFixed(2)}); tl.to("#${id}-armp", { opacity: 0, duration: 0.2 }, ${(B + 0.75).toFixed(2)});
+    tl.set("#${id}-held", { opacity: 1 }, ${(B + 0.8).toFixed(2)});
+    turn("${g2}", 0, ${(B + 0.8).toFixed(2)}, 0.4); look("${g2}", 0, 8, ${(B + 0.9).toFixed(2)}, 0.3);
+    tl.fromTo("#${id}-flap", { scaleY: 0 }, { scaleY: 1, transformOrigin: "50% 100%", duration: 0.5, ease: "power2.out" }, ${(B + 1.6).toFixed(2)});
+    cam("c", { scale: 1.05 }, { scale: 1.14, y: 20 }, ${B}, ${(Cc - B).toFixed(2)});
+    tl.set("#${id}-pc", { opacity: 0 }, ${Cc}); tl.set("#${id}-pd", { opacity: 1 }, ${Cc});
+    look("${g3}", 0, 8, ${Cc}, 0.01); eyesOpen("${g3}", 1.0, ${Cc}, 0.01); brows("${g3}", -4, -4, ${Cc}, 0.01);
+    eyesOpen("${g3}", 1.32, ${(Cc + 0.4).toFixed(2)}, 0.35); brows("${g3}", -16, -6, ${(Cc + 0.4).toFixed(2)}, 0.35);
+    tl.fromTo("#${g3}-head", { y: 0 }, { y: -10, duration: 0.35, ease: "power2.out" }, ${(Cc + 0.4).toFixed(2)});
+    blink("${g3}", ${(Cc + 1.4).toFixed(2)}, 0.14); blink("${g3}", ${(Cc + 1.65).toFixed(2)}, 0.14);
+    brows("${g3}", -14, -12, ${(Cc + 2.0).toFixed(2)}, 0.4);
+    cam("d", { scale: 1.0, origin: "540px 760px" }, { scale: 1.08, origin: "540px 760px" }, ${Cc}, ${(dur - Cc).toFixed(2)});
+    ` }) };
+}
+
+// ── 10. the paper: «HamdelGapBot» in his hand ─────────────────────────────────────────────────────
+function t10(dur) {
+  const id = "t10";
+  return { id, dur, html: scene({ id, dur, bg: "#14101c", vignette: 0.75, extraStyle: FONTS2,
+    layers: [
+      { name: "bg", blur: 16, svg: `<rect width="1080" height="1920" fill="#6a2a3a"/>${[...Array(5)].map((_, i) => `<path d="M ${i * 260},0 L ${i * 260 + 200},1920" stroke="#8a3a4a" stroke-width="40" opacity="0.4"/>`).join("")}` },
+      { name: "paper", svg: `<g transform="translate(540,960) rotate(-3)">
+        <rect x="-430" y="-320" width="860" height="640" fill="#000" opacity="0.35" transform="translate(16,20)"/>
+        <rect x="-430" y="-320" width="860" height="640" fill="#e2d2a6"/><rect x="-430" y="-320" width="860" height="640" fill="#7a5a2a" opacity="0.12"/>
+        <path d="M -430,0 L 430,0 M 0,-320 L 0,320" stroke="#c4b086" stroke-width="5"/>
+        <text id="${id}-txt" x="0" y="40" font-family="Caveat" font-size="150" font-weight="600" fill="#2a1e3a" text-anchor="middle">HamdelGapBot</text>
+        <rect id="${id}-mask" x="-420" y="-90" width="840" height="200" fill="#e2d2a6"/></g>
+        <g transform="translate(120,1500) rotate(28) scale(1.9)"><path d="M -40,0 C -46,-60 -40,-110 -30,-120 L 30,-120 C 44,-100 46,-40 40,0 Z" fill="${P.skin}"/><rect x="-48" y="0" width="96" height="300" fill="#e2d6d0"/></g>
+        <g transform="translate(960,1500) rotate(-28) scale(1.9)"><path d="M -40,0 C -46,-60 -40,-110 -30,-120 L 30,-120 C 44,-100 46,-40 40,0 Z" fill="${P.skinSh}"/><rect x="-48" y="0" width="96" height="300" fill="#e2d6d0"/></g>` },
+    ],
+    js: `
+    cam("bg", { scale: 1.05 }, { scale: 1.08 }, 0, ${dur});
+    cam("paper", { scale: 1.0, rotation: -1 }, { scale: 1.12, rotation: 0.6, origin: "50% 50%" }, 0, ${dur}, "sine.inOut");
+    tl.fromTo("#${id}-mask", { attr: { x: -420, width: 840 } }, { attr: { x: 420, width: 0 }, duration: 0.9, ease: "power1.inOut" }, 0.2);
+    ` }) };
+}
+
+// ── 11. she searches the name: her phone, the bot's page on screen ───────────────────────────────────
+function t11(dur) {
+  const id = "t11";
+  const X0 = 234, X1 = 846, Y0 = 324, Y1 = 1596;
+  return { id, dur, html: scene({ id, dur, bg: "#0b0d14", vignette: 0.7, fadeOut: true,
+    layers: [
+      { name: "bg", blur: 18, svg: `<rect width="1080" height="1920" fill="#6a2a3a"/><rect width="1080" height="1920" fill="#0b0d14" opacity="0.55"/>` },
+      { name: "phone", defs: `<clipPath id="${id}-scr"><rect x="${X0}" y="${Y0}" width="${X1 - X0}" height="${Y1 - Y0}" rx="58"/></clipPath>`, svg: `
+        <g transform="translate(150,1700) rotate(30) scale(2.3)"><path d="M -40,0 C -46,-60 -40,-110 -30,-120 L 30,-120 C 44,-100 46,-40 40,0 Z" fill="${P.skin}"/><rect x="-48" y="0" width="96" height="300" fill="#e2d6d0"/></g>
+        <g transform="translate(930,1700) rotate(-30) scale(2.3)"><path d="M -40,0 C -46,-60 -40,-110 -30,-120 L 30,-120 C 44,-100 46,-40 40,0 Z" fill="${P.skinSh}"/><rect x="-48" y="0" width="96" height="300" fill="#e2d6d0"/></g>
+        <rect x="200" y="290" width="680" height="1340" rx="86" fill="#0d0e12"/><rect x="210" y="300" width="660" height="1320" rx="80" fill="#1a1b20"/>
+        <g clip-path="url(#${id}-scr)"><image id="${id}-shot" href="assets/img/hamdel.jpg" x="${X0}" y="${Y0}" width="${X1 - X0}" height="${(X1 - X0) * 2434 / 1125}" preserveAspectRatio="xMidYMin slice"/></g>
+        <path d="M 260,1500 C 300,1440 340,1430 380,1450 L 360,1640 L 240,1640 Z" fill="${P.skin}"/><path d="M 820,1500 C 780,1440 740,1430 700,1450 L 720,1640 L 840,1640 Z" fill="${P.skinSh}"/>
+        <rect width="1080" height="1920" fill="#7a5aff" opacity="0.06" style="mix-blend-mode:screen"/>` },
+    ],
+    js: `
+    cam("bg", { scale: 1.04 }, { scale: 1.07 }, 0, ${dur});
+    cam("phone", { scale: 1.0, rotation: -1, y: 20 }, { scale: 1.06, rotation: 0.4, y: -10 }, 0, ${dur});
+    tl.fromTo("#${id}-shot", { attr: { y: ${Y0 + 40} } }, { attr: { y: ${Y0} }, duration: 0.6, ease: "power2.out" }, 0.2);
+    ` }) };
+}
+
+const DURS = { t2: 4.0, t3: 5.0, t4: 6.0, t5: 6.0, t6: 5.0, t7: 8.0, t8: 5.0, t9: 10.6, t10: 3.5, t11: 5.0 };
+export default [t2(DURS.t2), t3(DURS.t3), t4(DURS.t4), t5(DURS.t5), t6(DURS.t6), t7(DURS.t7), t8(DURS.t8), t9(DURS.t9), t10(DURS.t10), t11(DURS.t11)].map(uniq);

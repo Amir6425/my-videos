@@ -151,3 +151,4 @@ function s2b() {
 }
 
 export default [s2a(), s2b()];
+export { taxi, buildings, lamp };

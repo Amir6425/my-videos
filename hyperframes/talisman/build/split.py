@@ -3,9 +3,13 @@ align_long.py), so each shot can be as long as the brief asks while its line sta
 Writes assets/audio/<shot>.mp3, build/narration.json and build/words.json. Run after align_long.py."""
 import json, os, subprocess
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(HERE, "..")
-L = json.load(open(os.path.join(HERE, "words_long.json"))); cfg = json.load(open(os.path.join(HERE, "long.json")))
+L = json.load(open(os.path.join(HERE, "words_long.json"))); cfg = json.load(open(os.path.join(HERE, L.get("config", "long.json"))))
 src = os.path.join(ROOT, cfg["audio"]); shots = L["shots"]
-scenes, words = [], {}
+# merge with scenes already split from other narration files
+NJ, WJ = os.path.join(HERE, "narration.json"), os.path.join(HERE, "words.json")
+new = {s["shot"] for s in shots}
+scenes = [s for s in (json.load(open(NJ))["scenes"] if os.path.exists(NJ) else []) if s["shot"] not in new]
+words = {k: v for k, v in (json.load(open(WJ)) if os.path.exists(WJ) else {}).items() if k not in new}
 for i, s in enumerate(shots):
     a = 0.0 if i == 0 else (shots[i - 1]["words"][-1]["end"] + s["words"][0]["start"]) / 2
     b = L["duration"] if i == len(shots) - 1 else (s["words"][-1]["end"] + shots[i + 1]["words"][0]["start"]) / 2
