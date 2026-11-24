@@ -1,0 +1,28 @@
+<template>
+  <style>
+    @font-face { font-family: "IRANSans"; src: url('assets/fonts/IRANSans-Black.ttf') format('truetype'); font-weight: 900; }
+    #root { position: absolute; inset: 0; pointer-events: none; }
+    .cap-page { position: absolute; left: 90px; right: 90px; top: 1430px; text-align: center; direction: rtl; opacity: 0;
+      font-family: "IRANSans", sans-serif; font-weight: 900; font-size: 60px; line-height: 1.5; color: #fff;
+      text-shadow: 0 4px 14px rgba(0,0,0,0.85), 0 0 3px rgba(0,0,0,0.9); }
+    .cap-w { display: inline-block; margin: 0 8px; }
+  </style>
+  <div id="root" data-composition-id="cap" data-width="1080" data-height="1920"><div class="cap-page" id="cap-p0"><span class="cap-w" id="cap-w0">رفت</span> <span class="cap-w" id="cap-w1">پیش</span> <span class="cap-w" id="cap-w2">دعانویس</span> <span class="cap-w" id="cap-w3">و</span> <span class="cap-w" id="cap-w4">گفت:</span></div></div>
+  <script>
+    (function () { const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#cap-p0", { opacity: 0, y: 14, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.16, ease: "power3.out" }, 0.440);
+tl.to("#cap-p0", { opacity: 0, filter: "blur(6px)", duration: 0.12, ease: "power2.in" }, 4.400);
+tl.fromTo("#cap-w0", { color: "#ffffff", scale: 1 }, { color: "#ffd873", scale: 1.1, duration: 0.07, ease: "power2.out" }, 0.520);
+tl.to("#cap-w0", { color: "#ffffff", scale: 1, duration: 0.1, ease: "power2.in" }, 0.900);
+tl.fromTo("#cap-w1", { color: "#ffffff", scale: 1 }, { color: "#ffd873", scale: 1.1, duration: 0.07, ease: "power2.out" }, 0.900);
+tl.to("#cap-w1", { color: "#ffffff", scale: 1, duration: 0.1, ease: "power2.in" }, 1.280);
+tl.fromTo("#cap-w2", { color: "#ffffff", scale: 1 }, { color: "#ffd873", scale: 1.1, duration: 0.07, ease: "power2.out" }, 1.280);
+tl.to("#cap-w2", { color: "#ffffff", scale: 1, duration: 0.1, ease: "power2.in" }, 2.000);
+tl.fromTo("#cap-w3", { color: "#ffffff", scale: 1 }, { color: "#ffd873", scale: 1.1, duration: 0.07, ease: "power2.out" }, 2.000);
+tl.to("#cap-w3", { color: "#ffffff", scale: 1, duration: 0.1, ease: "power2.in" }, 2.210);
+tl.fromTo("#cap-w4", { color: "#ffffff", scale: 1 }, { color: "#ffd873", scale: 1.1, duration: 0.07, ease: "power2.out" }, 2.210);
+
+    tl.to({}, { duration: 3.4 }, 0);
+    window.__timelines["cap"] = tl; })();
+  </script>
+</template>
