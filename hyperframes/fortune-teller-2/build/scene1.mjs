@@ -239,3 +239,5 @@ function s1c() {
 // gradient and pattern ids are shared by the set pieces: make them unique per shot
 const uniq = (shot) => ({ ...shot, html: shot.html.replace(/(id="|url\(#)(halo|purpleGlow|ballFill|nightsky|runnerPat)\b/g, `$1${shot.id}-$2`) });
 export default [s1a(), s1b(), s1c()].map(uniq);
+
+export { roomBehindGirl, roomBehindMan, table, crystalBall, candle, DEFS, light, oldBooks, R };

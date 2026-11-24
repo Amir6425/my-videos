@@ -1,0 +1,34 @@
+{
+ "scenes": [
+  {
+   "shot": "t2",
+   "audio": "assets/audio/t2.mp3",
+   "offset": 0.4,
+   "text": "«بختم رو بستن… طلسم شدم!»"
+  },
+  {
+   "shot": "t3",
+   "audio": "assets/audio/t3.mp3",
+   "offset": 0.4,
+   "text": "پیرمرد هیچی نگفت… فقط دستش رو جلو آورد."
+  },
+  {
+   "shot": "t4",
+   "audio": "assets/audio/t4.mp3",
+   "offset": 0.4,
+   "text": "و انگار توی خطوط دستش چیزی دید که انتظارش رو نداشت…"
+  },
+  {
+   "shot": "t5",
+   "audio": "assets/audio/t5.mp3",
+   "offset": 0.4,
+   "text": "چند کلمه نوشت، کاغذ رو تا کرد و گذاشت کف دستش…"
+  },
+  {
+   "shot": "t6",
+   "audio": "assets/audio/t6.mp3",
+   "offset": 0.4,
+   "text": "«ساعت یازده شب بازش کن.»"
+  }
+ ]
+}

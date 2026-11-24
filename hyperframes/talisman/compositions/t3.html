@@ -1,0 +1,111 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #1a0c14; }
+    .t3-L { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; will-change: transform; }
+    #t3-top { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; pointer-events: none; }
+    #t3-tex { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0.16; mix-blend-mode: soft-light; pointer-events: none; }
+    
+  </style>
+  <div id="root" data-composition-id="t3" data-width="1080" data-height="1920">
+    
+    <svg id="t3-table" class="t3-L" viewBox="0 0 1080 1920" width="1080" height="1920" xmlns="http://www.w3.org/2000/svg" data-layout-allow-overflow>
+      <defs>
+  <radialGradient id="t3-halo"><stop offset="0" stop-color="#ffb24a" stop-opacity="0.55"/><stop offset="1" stop-color="#ffb24a" stop-opacity="0"/></radialGradient>
+  <radialGradient id="t3-purpleGlow"><stop offset="0" stop-color="#b46aff" stop-opacity="0.6"/><stop offset="1" stop-color="#b46aff" stop-opacity="0"/></radialGradient>
+  <radialGradient id="t3-ballFill" cx="0.4" cy="0.35" r="0.75"><stop offset="0" stop-color="#e6c2ff"/><stop offset="0.45" stop-color="#9a4ae6"/><stop offset="1" stop-color="#3a1272"/></radialGradient>
+  <linearGradient id="t3-nightsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a1a7a"/><stop offset="1" stop-color="#6a3ab4"/></linearGradient>
+  <pattern id="t3-runnerPat" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 30,6 L 54,30 L 30,54 L 6,30 Z" fill="none" stroke="#6a2a62" stroke-width="3"/><circle cx="30" cy="30" r="5" fill="#c99a4a" opacity="0.4"/></pattern><radialGradient id="t3-cg" cx="900" cy="380" r="700" gradientUnits="userSpaceOnUse">
+    <stop offset="0%" stop-color="#ffb24a" stop-opacity="0.55"/><stop offset="100%" stop-color="#ffb24a" stop-opacity="0"/></radialGradient></defs>
+      
+      <rect width="1080" height="1920" fill="#4a1a4a"/><rect width="1080" height="1920" fill="url(#t3-runnerPat)"/>
+      <rect id="t3-cglow" width="1080" height="1920" fill="url(#t3-cg)" style="mix-blend-mode:screen"/>
+      <g transform="translate(900,420) scale(1.3)"><g>
+    <circle id="t3-cn-halo" cx="0" cy="-190" r="138" fill="url(#t3-halo)" opacity="0.8"/>
+    <rect x="-32" y="-10" width="64" height="14" rx="4" fill="#2e1a10"/>
+    <rect x="-22" y="-160" width="44" height="160" rx="5" fill="#f1e2c2"/>
+    <rect x="-22" y="-160" width="13.2" height="160" fill="#fff" opacity="0.35"/>
+    <rect x="8.8" y="-160" width="13.2" height="160" fill="#c9b08a" opacity="0.4"/>
+    <path d="M -22,-160 C -6,-150 4,-158 8,-144 L 22,-160 Z" fill="#e2cfa6"/>
+    <path id="t3-cn-fl" d="M 0,-204 C 11,-184 11,-168 0,-164 C -11,-168 -11,-184 0,-204 Z" fill="#ffc45a"/>
+    <path d="M 0,-186 C 5,-176 5,-170 0,-167 C -5,-170 -5,-176 0,-186 Z" fill="#fff4cc"/>
+  </g></g>
+      <g transform="translate(560,0)"><g id="t3-his" transform="translate(0,-400)"><g><rect x="-66" y="-560" width="132" height="560" fill="#3a2214"/><rect x="-70" y="-40" width="140" height="40" fill="#e4d0ae"/>
+  <path d="M -50,0 C -58,60 -56,110 -46,132 L -50,212 C -51,230 -30,232 -28,214 L -20,146 L -18,228 C -18,248 4,248 4,228 L 6,148 L 16,222 C 17,240 38,239 38,220 L 30,144 L 44,198 C 47,216 66,212 63,194 L 50,120 C 64,106 84,110 98,136 C 106,154 126,146 118,126 C 102,88 76,52 52,28 L 52,-10 L -50,-10 Z" fill="#bd7c52"/>
+  <g stroke="#7f4428" stroke-width="3" fill="none" opacity="0.6"><path d="M -34,50 C -10,62 16,60 34,48"/><path d="M 30,20 C 4,36 -14,64 -12,100"/></g>
+  <circle cx="34" cy="186" r="14" fill="#c9a24a"/><circle cx="34" cy="186" r="8" fill="#5a1a4a"/></g></g></g>
+      <g transform="translate(520,0)"><g id="t3-her" transform="translate(0,2300)"><g><rect x="-60" y="0" width="120" height="520" fill="#8e1a1e"/><rect x="-62" y="0" width="124" height="26" fill="#7a1418"/>
+  <path d="M -44,-6 C -50,-60 -48,-104 -38,-124 L -42,-196 C -43,-212 -24,-214 -22,-198 L -16,-136 L -14,-212 C -14,-230 6,-230 6,-212 L 8,-136 L 16,-206 C 17,-222 36,-221 36,-204 L 28,-132 L 40,-182 C 43,-198 60,-194 57,-178 L 46,-112 C 58,-98 76,-102 88,-126 C 96,-142 114,-134 106,-116 C 92,-82 68,-50 46,-28 L 46,10 L -44,10 Z" fill="#d98e6c"/>
+  </g></g></g>
+      <rect width="1080" height="1920" fill="#2a0a20" opacity="0.25" style="mix-blend-mode:multiply"/>
+    </svg>
+    <img id="t3-tex" src="assets/img/texture.png" alt="" data-layout-ignore />
+    <svg id="t3-top" viewBox="0 0 1080 1920" width="1080" height="1920" xmlns="http://www.w3.org/2000/svg">
+      <defs><radialGradient id="t3-vig" cx="50%" cy="48%" r="75%">
+        <stop offset="55%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity="0.85"/>
+      </radialGradient></defs>
+      <rect width="1080" height="1920" fill="url(#t3-vig)"/>
+      <rect id="t3-fade" width="1080" height="1920" fill="#000" opacity="0"/>
+    </svg>
+  </div>
+  <script>
+    (function () {
+    
+const tl = gsap.timeline({ paused: true });
+const ids = (p, names) => names.map((n) => "#" + p + "-" + n);
+function blink(p, t, d = 0.18) {
+  const e = ids(p, ["eyeL", "eyeR"]);
+  tl.to(e, { scaleY: 0.08, duration: d * 0.4, ease: "power2.in", transformOrigin: "50% 50%" }, t);
+  tl.to(e, { scaleY: 1, duration: d * 0.6, ease: "power2.out", transformOrigin: "50% 50%" }, t + d * 0.4);
+}
+function look(p, x, y, t, d = 0.35, ease = "power2.inOut") {
+  tl.to(ids(p, ["eyeL-iris", "eyeR-iris"]), { x, y, duration: d, ease }, t);
+}
+function mouth(p, name, t, d = 0.25) {
+  tl.to(ids(p, ["mouthN", "mouthW", "mouthS", "mouthO"]), { opacity: 0, duration: d }, t);
+  tl.to("#" + p + "-mouth" + name, { opacity: 1, duration: d }, t);
+}
+// brows: y shift (negative = raised), rot (positive = inner ends down = frown)
+function brows(p, y, rot, t, d = 0.4, ease = "power2.inOut") {
+  tl.to("#" + p + "-browL", { y, rotation: rot, transformOrigin: "50% 50%", duration: d, ease }, t);
+  tl.to("#" + p + "-browR", { y, rotation: -rot, transformOrigin: "50% 50%", duration: d, ease }, t + 0.03);
+}
+function eyesOpen(p, s, t, d = 0.35) {
+  tl.to(ids(p, ["eyeL", "eyeR"]), { scaleY: s, scaleX: 1 + (s - 1) * 0.4, transformOrigin: "50% 50%", duration: d, ease: "power2.out" }, t);
+}
+// turn: shift the features sideways (a 3/4 turn in a flat style), the fringe follows a little
+function turn(p, dx, t, d = 0.5, ease = "power2.inOut") {
+  tl.to("#" + p + "-face", { x: dx, duration: d, ease }, t);
+  tl.to("#" + p + "-hairF", { x: dx * 0.35, duration: d, ease }, t + 0.04);
+}
+// camera move on one layer (an HTML <svg>): scale/x/y around the frame centre unless an origin is given
+function cam(layer, from, to, t, d, ease = "sine.inOut") {
+  const o = { transformOrigin: to.origin || "50% 50%" }; delete to.origin; delete from.origin;
+  tl.fromTo("#" + S + "-" + layer, Object.assign({}, o, from), Object.assign({}, o, { duration: d, ease }, to), t);
+}
+function fadeIn(s, t = 0, d = 0.35) { tl.fromTo("#" + s + "-fade", { opacity: 1 }, { opacity: 0, duration: d, ease: "power1.out" }, t); }
+function fadeOut(s, t, d = 0.35) { tl.fromTo("#" + s + "-fade", { opacity: 0 }, { opacity: 1, duration: d, ease: "power1.in" }, t); }
+// deterministic flicker for candle and lamp light: a sum of sines of timeline time
+function flicker(sel, dur, base, amp) {
+  const o = { t: 0 };
+  tl.to(o, { t: dur, duration: dur, ease: "none", onUpdate() {
+    const v = base + amp * (Math.sin(o.t * 9.1) * 0.5 + Math.sin(o.t * 23.7 + 1.3) * 0.3 + Math.sin(o.t * 4.3) * 0.2);
+    gsap.set(sel, { opacity: v });
+  } }, 0);
+}
+
+    const S = "t3";
+    
+    
+    flicker("#t3-cglow", 5, 0.85, 0.15); flicker("#t3-cn-halo", 5, 0.8, 0.15);
+    cam("table", { scale: 1.0, origin: "540px 1000px" }, { scale: 1.12, origin: "540px 1000px" }, 0, 5);
+    tl.fromTo("#t3-his", { attr: { transform: "translate(0,-400)" } }, { attr: { transform: "translate(0,760)" }, duration: 1.4, ease: "power2.out" }, 0.3);
+    tl.fromTo("#t3-her", { attr: { transform: "translate(0,2300)" } }, { attr: { transform: "translate(0,1560)" }, duration: 0.9, ease: "power2.out" }, 1.7);
+    tl.to("#t3-her", { attr: { transform: "translate(0,1680)" }, duration: 0.5, ease: "sine.inOut" }, 2.6);
+    tl.to("#t3-her", { attr: { transform: "translate(-10,1140) rotate(4)" }, duration: 1.1, ease: "power2.inOut" }, 3.2);
+    
+    
+    tl.to({}, { duration: 5 }, 0);
+    window.__timelines["t3"] = tl;
+    })();
+  </script>
+</template>

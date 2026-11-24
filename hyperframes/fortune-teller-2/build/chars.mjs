@@ -49,7 +49,7 @@ function girlEye(id, cx, cy, side) {
 const G_FACE = "M -100,-112 C -110,-40 -106,30 -86,80 C -64,128 -28,160 0,166 C 28,160 64,128 86,80 C 106,30 110,-40 100,-112 C 92,-172 50,-198 0,-198 C -50,-198 -92,-172 -100,-112 Z";
 
 // Parts: -head, -face, -eyeL/-eyeR (+ -iris), -browL/-browR, -hairF, -hairB.
-export function girlHead(p) {
+export function girlHead(p, { freckles = false } = {}) {
   return `
   <g id="${p}-head">
     <g id="${p}-hairB">
@@ -63,6 +63,7 @@ export function girlHead(p) {
     <path d="M 100,-112 C 110,-40 106,30 86,80 C 64,128 28,160 0,166 C 46,150 76,100 86,40 C 92,-10 92,-70 86,-130 Z" fill="${P.skinSh}" opacity="0.65"/>
     <path d="M -96,-60 C -100,0 -96,50 -80,86 C -86,40 -88,-10 -84,-70 Z" fill="${P.skinHi}" opacity="0.5"/>
     <ellipse cx="-58" cy="62" rx="28" ry="16" fill="${P.blush}" opacity="0.32"/><ellipse cx="58" cy="62" rx="28" ry="16" fill="${P.blush}" opacity="0.32"/>
+    ${freckles ? [[-70, 50], [-56, 58], [-44, 48], [-62, 66], [-36, 60], [70, 50], [56, 58], [44, 48], [62, 66], [36, 60], [-8, 46], [8, 46]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.6" fill="#b8643e" opacity="0.6"/>`).join("") : ""}
     <g id="${p}-face">
       <g transform="translate(-56,8) scale(1.08) translate(56,-8)">${girlEye(`${p}-eyeL`, -56, 8, -1)}</g>
       <g transform="translate(56,8) scale(1.08) translate(-56,-8)">${girlEye(`${p}-eyeR`, 56, 8, 1)}</g>
@@ -92,7 +93,7 @@ export function girlHead(p) {
 
 // Seated, hands pressed together in front of her chest, forearms resting on the table edge.
 // Parts: -body, -hands (-thumbA/-thumbB/-knuck) for the squeeze, -shoulders.
-export function girlBody(p) {
+export function girlBody(p, { coat = false } = {}) {
   return `
   <defs><pattern id="${p}-dam" width="46" height="46" patternUnits="userSpaceOnUse">
     <path d="M 23,6 C 30,14 30,20 23,26 C 16,20 16,14 23,6 Z M 23,26 C 30,32 36,32 40,40 C 32,40 26,36 23,30 C 20,36 14,40 6,40 C 10,32 16,32 23,26 Z" fill="${P.dressSh}" opacity="0.55"/>
@@ -105,12 +106,16 @@ export function girlBody(p) {
     <path d="M -20,300 C -10,306 10,306 20,300" stroke="${P.skinDeep}" stroke-width="2" fill="none" opacity="0.6"/>
     <path d="M 110,300 C 140,340 150,500 150,760 L 120,760 C 126,520 120,380 100,300 Z" fill="${P.dressSh}" opacity="0.7"/>
   </g>
+  ${coat ? `<g transform="translate(0,-55)"><path d="M -150,330 C -150,296 -120,280 -70,276 L -40,760 L -175,760 C -180,600 -176,420 -150,330 Z" fill="#8e1a1e"/>
+    <path d="M 150,330 C 150,296 120,280 70,276 L 40,760 L 175,760 C 180,600 176,420 150,330 Z" fill="#7a1418"/>
+    <path d="M -70,276 L -30,340 L -60,420 Z" fill="#a8262a"/><path d="M 70,276 L 30,340 L 60,420 Z" fill="#a8262a"/></g>` : ""}
   <g id="${p}-arms">
     <path d="M -150,318 C -186,330 -200,380 -200,450 L -196,600 C -190,640 -166,654 -140,650 L -150,460 Z" fill="${P.skin}"/>
     <path d="M -150,318 C -176,326 -186,350 -190,390 C -176,370 -160,360 -146,358 Z" fill="${P.skinSh}" opacity="0.6"/>
     <path d="M 150,318 C 186,330 200,380 200,450 L 196,600 C 190,640 166,654 140,650 L 150,460 Z" fill="${P.skinSh}"/>
-    <path d="M -196,596 C -150,610 -80,590 -40,560 L -30,600 C -80,640 -150,660 -190,646 Z" fill="${P.skin}"/>
-    <path d="M 196,596 C 150,610 80,590 40,560 L 30,600 C 80,640 150,660 190,646 Z" fill="${P.skinSh}"/>
+    ${coat ? `<path d="M -150,318 C -190,330 -206,380 -206,450 L -200,606 C -192,646 -166,660 -140,656 L -150,460 Z" fill="#8e1a1e"/><path d="M 150,318 C 190,330 206,380 206,450 L 200,606 C 192,646 166,660 140,656 L 150,460 Z" fill="#7a1418"/>` : ""}
+    <path d="M -196,596 C -150,610 -80,590 -40,560 L -30,600 C -80,640 -150,660 -190,646 Z" fill="${coat ? "#8e1a1e" : P.skin}"/>
+    <path d="M 196,596 C 150,610 80,590 40,560 L 30,600 C 80,640 150,660 190,646 Z" fill="${coat ? "#7a1418" : P.skinSh}"/>
     <g transform="translate(0,560)"><g id="${p}-hands">
       <path d="M -62,10 C -66,-30 -50,-56 -20,-60 L 20,-60 C 50,-56 66,-30 62,10 C 58,40 30,56 0,56 C -30,56 -58,40 -62,10 Z" fill="${P.skin}"/>
       <g id="${p}-knuck">
@@ -158,7 +163,7 @@ function manEye(id, cx, cy, side) {
   </g>`;
 }
 
-export function manHead(p) {
+export function manHead(p, { gem = false } = {}) {
   const beardStrands = [...Array(26)].map((_, i) => {
     const x = -120 + i * 9.6;
     const top = 120 + Math.abs(x) * 0.25, bot = 560 - Math.abs(x) * 1.6 - (i % 3) * 14;
@@ -206,6 +211,7 @@ export function manHead(p) {
       <path d="M -170,-170 C -90,-250 70,-300 160,-240 C 120,-246 40,-266 -40,-232 C -100,-208 -140,-180 -162,-150 Z" fill="${P.turbanSh}" opacity="0.7"/>
       <path d="M -120,-250 C -40,-320 60,-330 120,-280 C 60,-300 -20,-296 -100,-230 Z" fill="${P.turbanHi}" opacity="0.7"/>
       <path d="M -150,-96 C -60,-170 70,-190 156,-120" stroke="${P.turbanSh}" stroke-width="6" fill="none"/>
+      ${gem ? `<path d="M 0,-170 L 22,-146 L 0,-118 L -22,-146 Z" fill="#c9a24a"/><path d="M 0,-160 L 13,-146 L 0,-128 L -13,-146 Z" fill="#2a8a6a"/><circle cx="-4" cy="-150" r="3" fill="#fff" opacity="0.8"/>` : ""}
       ${[...Array(30)].map((_, i) => `<circle cx="${-130 + (i % 10) * 28 + (Math.floor(i / 10) % 2) * 14}" cy="${-150 - Math.floor(i / 10) * 50 + (i % 10) * 3}" r="3" fill="#e2603e" opacity="0.5"/>`).join("")}
     </g>
   </g>`;
