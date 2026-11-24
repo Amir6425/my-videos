@@ -9,7 +9,7 @@ export default function audio(shots) {
   const caps = fs.existsSync(path.join(HERE, "words.json")) && cfg.text.trim();
   if (caps) writeCaptions(JSON.parse(fs.readFileSync(path.join(HERE, "words.json"), "utf8")).words, cfg.offset, total);
   return `      <audio id="narration" class="clip" src="${cfg.audio}" data-start="${cfg.offset}" data-track-index="4" data-volume="1"></audio>
-      <audio id="bed" class="clip" src="assets/audio/bed.mp3" data-start="0" data-duration="${total}" data-track-index="3" data-volume="0.5"></audio>
+      <audio id="bed" class="clip" src="assets/audio/bed.mp3" data-start="0" data-duration="${total}" data-track-index="3" data-volume="0.05"></audio>
 ${caps ? `      <div id="cap" data-composition-id="cap" data-composition-src="compositions/cap.html" data-start="0" data-duration="${total}" data-track-index="2" data-track-kind="captions" data-width="1080" data-height="1920"></div>` : ""}`;
 }
 
