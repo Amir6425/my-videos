@@ -325,7 +325,7 @@ function t10(dur) {
 function t11(dur) {
   const id = "t11";
   const X0 = 234, X1 = 846, Y0 = 324, Y1 = 1596;
-  return { id, dur, html: scene({ id, dur, bg: "#0b0d14", vignette: 0.7, fadeOut: true,
+  return { id, dur, html: scene({ id, dur, bg: "#0b0d14", vignette: 0.7, fadeOut: false,
     layers: [
       { name: "bg", blur: 18, svg: `<rect width="1080" height="1920" fill="#6a2a3a"/><rect width="1080" height="1920" fill="#0b0d14" opacity="0.55"/>` },
       { name: "phone", defs: `<clipPath id="${id}-scr"><rect x="${X0}" y="${Y0}" width="${X1 - X0}" height="${Y1 - Y0}" rx="58"/></clipPath>`, svg: `

@@ -84,7 +84,7 @@ function flicker(sel, dur, base, amp) {
     cam("phone", { scale: 1.0, rotation: -1, y: 20 }, { scale: 1.06, rotation: 0.4, y: -10 }, 0, 5);
     tl.fromTo("#t11-shot", { attr: { y: 364 } }, { attr: { y: 324 }, duration: 0.6, ease: "power2.out" }, 0.2);
     
-    fadeOut(S, 5 - 0.4, 0.38);
+    
     tl.to({}, { duration: 5 }, 0);
     window.__timelines["t11"] = tl;
     })();
