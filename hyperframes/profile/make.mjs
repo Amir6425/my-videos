@@ -27,11 +27,10 @@ ${bust("w", "w", 830, 610, 0.78, true)}
 ${bust("r", "r", 540, 560, 0.9)}
 <rect y="0" width="${S}" height="${S}" fill="#1a1440" opacity="0.18"/>
 <rect width="${S}" height="${S}" fill="url(#vig)"/>
-<g transform="translate(540,935)">
-  <path d="M -380,-62 L 380,-62 L 350,0 L 380,62 L -380,62 L -350,0 Z" fill="#120c22" opacity="0.92"/>
-  <path d="M -366,-50 L 366,-50 L 338,0 L 366,50 L -366,50 L -338,0 Z" fill="none" stroke="url(#gold)" stroke-width="4"/>
-  <text x="0" y="22" font-family="Cinzel, 'Playfair Display', Georgia, serif" font-weight="700" font-size="64" letter-spacing="3" fill="url(#gold)" text-anchor="middle">Rarze_Dastan</text>
-</g>
+<defs><linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#05060f" stop-opacity="0"/><stop offset="1" stop-color="#05060f" stop-opacity="0.9"/></linearGradient></defs>
+<rect y="700" width="1080" height="380" fill="url(#shade)"/>
+<defs><filter id="sh" x="-20%" y="-50%" width="140%" height="200%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.85"/></filter></defs>
+<text x="540" y="940" font-family="'Pacifico'" font-size="86" fill="url(#gold)" text-anchor="middle" filter="url(#sh)">Rarze_Dastan</text>
 </svg>`;
 fs.writeFileSync("profile.svg", svg);
-fs.writeFileSync("profile.html", `<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=block" rel="stylesheet"><style>html,body{margin:0;background:#000}</style></head><body>${svg}</body></html>`);
+fs.writeFileSync("profile.html", `<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Pacifico&display=block" rel="stylesheet"><style>html,body{margin:0;background:#000}</style></head><body>${svg}</body></html>`);
