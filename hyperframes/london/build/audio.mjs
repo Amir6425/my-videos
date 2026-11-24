@@ -5,12 +5,16 @@ import { fileURLToPath } from "node:url";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export default function audio(shots) {
   const total = Math.round(shots.reduce((a, s) => a + s.dur, 0) * 100) / 100;
-  const cfg = JSON.parse(fs.readFileSync(path.join(HERE, "narration.json"), "utf8"));
-  const caps = fs.existsSync(path.join(HERE, "words.json")) && cfg.text.trim();
-  if (caps) writeCaptions(JSON.parse(fs.readFileSync(path.join(HERE, "words.json"), "utf8")).words, cfg.offset, total);
-  return `      <audio id="narration" class="clip" src="${cfg.audio}" data-start="${cfg.offset}" data-track-index="4" data-volume="1"></audio>
+  const starts = {}; let acc = 0; for (const s of shots) { starts[s.id] = acc; acc += s.dur; }
+  const scenes = JSON.parse(fs.readFileSync(path.join(HERE, "narration.json"), "utf8")).scenes.filter((c) => starts[c.shot] !== undefined);
+  const W = fs.existsSync(path.join(HERE, "words.json")) ? JSON.parse(fs.readFileSync(path.join(HERE, "words.json"), "utf8")) : {};
+  // every word on the film's clock: shot start + the narration's offset + its time in the file
+  const words = scenes.flatMap((c) => (W[c.shot]?.words || []).map((w) => ({ ...w, start: w.start + starts[c.shot] + c.offset, end: w.end + starts[c.shot] + c.offset })));
+  if (words.length) writeCaptions(words, 0, total);
+  return scenes.map((c, i) => `      <audio id="narration-${i + 1}" class="clip" src="${c.audio}" data-start="${(starts[c.shot] + c.offset).toFixed(2)}"${W[c.shot]?.duration ? ` data-duration="${W[c.shot].duration}"` : ""} data-track-index="4" data-volume="1"></audio>`).join("\n") + `
       <audio id="bed" class="clip" src="assets/audio/bed.mp3" data-start="0" data-duration="${total}" data-track-index="3" data-volume="0.05"></audio>
-${caps ? `      <div id="cap" data-composition-id="cap" data-composition-src="compositions/cap.html" data-start="0" data-duration="${total}" data-track-index="2" data-track-kind="captions" data-width="1080" data-height="1920"></div>` : ""}`;
+      ${fs.existsSync(path.join(HERE, "..", "assets", "audio", "sfx.mp3")) ? `<audio id="sfx" class="clip" src="assets/audio/sfx.mp3" data-start="0" data-duration="${total}" data-track-index="5" data-volume="0.35"></audio>` : ""}
+${words.length ? `      <div id="cap" data-composition-id="cap" data-composition-src="compositions/cap.html" data-start="0" data-duration="${total}" data-track-index="2" data-track-kind="captions" data-width="1080" data-height="1920"></div>` : ""}`;
 }
 
 // Word-by-word captions: pages of up to 4 words; the word being spoken turns red and grows a little.

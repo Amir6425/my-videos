@@ -2,6 +2,7 @@
 // the camera eases toward one lit window. Drawn in perspective: a street runs away from the camera to a
 // vanishing point; house fronts line both sides, slate roofs and chimneys above, gas lamps along the kerb.
 import { scene, glow } from "./lib.mjs";
+import { womanHead, PAL as WP } from "../../fortune-teller/build/chars.mjs";
 
 let seed = 19;
 const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
@@ -173,4 +174,83 @@ function l1() {
 }
 const S = (l) => `l1-${l}`;
 
-export default [l1()];
+
+// ── shot 2: the bathroom. Non-graphic: only hair on the water and a limp hand over the rim. ─────────
+// The maid, full figure, feet at (0,0), ~1000 tall: black dress, white apron and cap, hands at her face.
+function maid(p) {
+  const skin = WP.wSkin, skinSh = WP.wSkinSh;
+  return `<g id="${p}-body">
+    <path d="M -70,-800 C -96,-790 -104,-760 -102,-720 L -150,-20 C -60,10 60,10 150,-20 L 102,-720 C 104,-760 96,-790 70,-800 Z" fill="#141418"/>
+    <path d="M -60,-560 L 60,-560 L 96,-120 C 40,-100 -40,-100 -96,-120 Z" fill="#e8e6e0"/><path d="M -60,-560 L 60,-560 L 56,-530 L -56,-530 Z" fill="#cfccc4"/>
+    <path d="M -46,-800 L 46,-800 L 30,-760 L -30,-760 Z" fill="#f2f0ea"/>
+    <path d="M -150,-20 L 150,-20 L 156,0 L -156,0 Z" fill="#0c0c10"/>
+    <g id="${p}-arms">
+      <path d="M -70,-790 C -110,-780 -124,-720 -120,-660 L -96,-640 C -94,-700 -84,-740 -64,-760 Z" fill="#1c1c22"/>
+      <path d="M -120,-660 L -96,-640 L -50,-840 L -74,-850 Z" fill="#1c1c22"/>
+      <path d="M 70,-790 C 110,-780 124,-720 120,-660 L 96,-640 C 94,-700 84,-740 64,-760 Z" fill="#1c1c22"/>
+      <path d="M 120,-660 L 96,-640 L 50,-840 L 74,-850 Z" fill="#1c1c22"/>
+    </g>
+    <g transform="translate(0,-880) scale(0.3)">
+      <circle cx="0" cy="-150" r="90" fill="${WP.wHair}"/>
+      ${womanHead(`${p}-h`, { scarf: false })}
+      <path d="M -120,-150 C -80,-230 80,-230 120,-150 C 80,-170 -80,-170 -120,-150 Z" fill="#f4f2ec"/>
+      ${[-100, -60, -20, 20, 60, 100].map((x) => `<circle cx="${x}" cy="${-160 - (100 - Math.abs(x)) * 0.35}" r="18" fill="#f4f2ec"/>`).join("")}
+      <ellipse id="${p}-handL" cx="-92" cy="80" rx="36" ry="52" fill="${skinSh}"/><ellipse id="${p}-handR" cx="92" cy="80" rx="36" ry="52" fill="${skin}"/>
+    </g>
+  </g>`;
+}
+function l2() {
+  const id = "l2", dur = 8.8;
+  const tiles = [...Array(9)].map((_, r) => [...Array(14)].map((_, c) => `<rect x="${c * 80 - (r % 2) * 40}" y="${900 + r * 50}" width="78" height="48" fill="${(r + c) % 5 ? "#d8d2c0" : "#cfc8b4"}"/>`).join("")).join("");
+  const floorRows = [...Array(10)].map((_, r) => { const y0 = 1360 + r * r * 6 + r * 34, y1 = 1360 + (r + 1) * (r + 1) * 6 + (r + 1) * 34, n = 12; const sh = (y) => (y - 1360) * 0.25;
+    return [...Array(n)].map((_, c) => { const x0 = -sh(y0) + c * (1080 + 2 * sh(y0)) / n, x1 = -sh(y0) + (c + 1) * (1080 + 2 * sh(y0)) / n, x2 = -sh(y1) + (c + 1) * (1080 + 2 * sh(y1)) / n, x3 = -sh(y1) + c * (1080 + 2 * sh(y1)) / n;
+      return `<polygon points="${x0.toFixed(0)},${y0} ${x1.toFixed(0)},${y0} ${x2.toFixed(0)},${y1} ${x3.toFixed(0)},${y1}" fill="${(r + c) % 2 ? "#1a1a1e" : "#bdb8ac"}"/>`; }).join(""); }).join("");
+  const paper = [...Array(8)].map((_, r) => [...Array(7)].map((_, c) => `<path d="M ${c * 160 + (r % 2) * 80},${r * 115 + 40} l 14,-22 l 14,22 l -14,22 Z" fill="#2a4a42" opacity="0.6"/>`).join("")).join("");
+  const hair = [...Array(9)].map((_, i) => `<path d="M ${770 + i * 6},1188 C ${740 + i * 4},${1196 + (i % 3) * 4} ${700 - i * 6},${1184 + (i % 2) * 8} ${660 - i * 10},${1192 + (i % 3) * 5}" stroke="${i % 2 ? "#2a1a14" : "#3a261c"}" stroke-width="7" fill="none" stroke-linecap="round"/>`).join("");
+  const js = `
+    cam("room", { scale: 1.0, x: 0, y: 0, origin: "560px 1250px" }, { scale: 1.42, x: 40, y: -40, origin: "560px 1250px" }, 0, ${dur}, "power1.inOut");
+    flicker("#${id}-sconce", ${dur}, 0.9, 0.12);
+    mouth("${id}-m-h", "O", 0, 0.01); eyesOpen("${id}-m-h", 1.35, 0, 0.01); brows("${id}-m-h", -16, -8, 0, 0.01); look("${id}-m-h", 8, 4, 0, 0.01);
+    tl.fromTo("#${id}-maid", { attr: { transform: "translate(205,1450) scale(0.74)" } }, { attr: { transform: "translate(190,1438) scale(0.72)" }, duration: 0.5, ease: "power3.out" }, 0.2);
+    (function () { const el = document.getElementById("${id}-m-body"); const o = { t: 0 };
+      tl.fromTo(o, { t: 0 }, { t: ${dur}, duration: ${dur}, ease: "none", onUpdate() { const t = o.t;
+        el.setAttribute("transform", "translate(" + (2.2 * Math.sin(t * 37) + 1.2 * Math.sin(t * 59)).toFixed(2) + ",0)"); } }, 0); })();
+    blink("${id}-m-h", 3.4, 0.14);
+    ${[0, 1, 2, 3, 4].map((k) => `tl.fromTo("#${id}-drop", { attr: { cy: 1158 }, opacity: 1 }, { attr: { cy: 1190 }, opacity: 0.2, duration: 0.3, ease: "power2.in" }, ${(0.8 + k * 1.6).toFixed(2)});
+    tl.fromTo("#${id}-ring", { attr: { rx: 2, ry: 1 }, opacity: 0.6 }, { attr: { rx: 46, ry: 7 }, opacity: 0, duration: 1.0, ease: "power1.out" }, ${(1.1 + k * 1.6).toFixed(2)});`).join(" ")}
+  `;
+  return { id, dur, html: scene({ id, dur, bg: "#06080d", vignette: 0.88,
+    layers: [
+      { name: "room", defs: glow(`${id}-sg`, 470, 520, 520, "#ffb24a", 0.5) + glow(`${id}-wg`, 860, 520, 700, "#7a9ad8", 0.35) + glow(`${id}-hall`, 200, 1000, 500, "#ffb24a", 0.45), svg: `
+        <rect width="1080" height="1920" fill="#1f3a34"/>${paper}
+        <rect y="880" width="1080" height="24" fill="#3a2414"/>${tiles}<rect y="1340" width="1080" height="22" fill="#a8a294"/>
+        ${floorRows}
+        <rect x="70" y="560" width="260" height="880" fill="#2a1a10"/><rect x="88" y="578" width="224" height="862" fill="#3a2a1c"/>
+        <rect x="88" y="578" width="224" height="862" fill="url(#${id}-hall)"/>
+        <path d="M 312,578 L 360,560 L 360,1460 L 312,1440 Z" fill="#4a2e18"/>
+        <rect x="700" y="300" width="300" height="460" fill="#e8e4da"/><rect x="718" y="318" width="264" height="424" fill="#9fb2c8"/>
+        <path d="M 850,318 L 850,742 M 718,530 L 982,530" stroke="#e8e4da" stroke-width="12"/>
+        <rect x="718" y="318" width="264" height="424" fill="#d0dcea" opacity="0.35"/>
+        <g transform="translate(470,600)"><rect x="-10" y="-20" width="20" height="60" fill="#8a6a30"/><path d="M -36,-20 L 36,-20 L 26,-90 L -26,-90 Z" fill="#f0d8a0" opacity="0.9"/></g>
+        <rect id="${id}-sconce" width="1080" height="1920" fill="url(#${id}-sg)" style="mix-blend-mode:screen"/>
+        <rect width="1080" height="1920" fill="url(#${id}-wg)" style="mix-blend-mode:screen"/>
+        <rect x="560" y="700" width="120" height="16" rx="6" fill="#8a6a30"/><path d="M 580,716 L 580,840 L 660,840 L 660,716 Z" fill="#e6e2d8"/>
+        <g id="${id}-maid" transform="translate(205,1450) scale(0.74)">${maid(`${id}-m`)}</g>
+        <ellipse cx="560" cy="1440" rx="360" ry="34" fill="#000" opacity="0.35"/>
+        <path d="M 250,1180 C 250,1300 300,1380 380,1395 L 740,1395 C 820,1380 870,1300 870,1180 Z" fill="#f2f0ea"/>
+        <path d="M 270,1200 C 280,1300 320,1360 390,1375" stroke="#d6d2c8" stroke-width="14" fill="none"/>
+        <ellipse cx="560" cy="1180" rx="316" ry="34" fill="#f8f6f0"/><ellipse cx="560" cy="1184" rx="290" ry="24" fill="#6a7a8a"/>
+        <ellipse cx="560" cy="1186" rx="280" ry="18" fill="#8a9aaa" opacity="0.6"/>
+        ${hair}
+        <ellipse id="${id}-ring" cx="830" cy="1188" rx="2" ry="1" fill="none" stroke="#cfd8e0" stroke-width="2" opacity="0"/>
+        <path d="M 360,1176 C 352,1200 350,1230 356,1256 C 360,1270 372,1272 376,1258 C 380,1236 382,1210 378,1180 Z" fill="${WP.wSkinSh}" opacity="0.95"/>
+        <path d="M 352,1250 l -4,22 M 360,1256 l -2,24 M 368,1256 l 0,22 M 376,1252 l 2,18" stroke="${WP.wSkinSh}" stroke-width="7" stroke-linecap="round"/>
+        <g transform="translate(850,1130)"><rect x="-8" y="-40" width="16" height="44" fill="#a88a40"/><path d="M -8,-40 L 30,-40 L 30,-28 L -8,-28 Z" fill="#a88a40"/><rect x="24" y="-28" width="10" height="20" fill="#8a6a30"/></g>
+        <ellipse id="${id}-drop" cx="879" cy="1158" rx="3.5" ry="5" fill="#cfe0ef"/>
+        ${[[330, 1430], [800, 1430]].map(([x, y]) => `<path d="M ${x - 26},${y - 40} C ${x - 30},${y - 10} ${x - 20},${y + 6} ${x},${y + 8} C ${x + 20},${y + 6} ${x + 30},${y - 10} ${x + 26},${y - 40} Z" fill="#a88a40"/>`).join("")}
+        <rect width="1080" height="1920" fill="#0a1430" opacity="0.3" style="mix-blend-mode:multiply"/>` },
+    ],
+    js }) };
+}
+
+export default [l1(), l2()];
