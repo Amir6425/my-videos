@@ -41,6 +41,6 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${S} ${S}" wid
 <rect y="700" width="${S}" height="380" fill="url(#shade)"/>
 <rect width="${S}" height="${S}" fill="url(#vig)"/>
 <rect x="230" y="852" width="620" height="124" rx="22" fill="#000"/>
-<text x="540" y="938" font-family="'Pacifico'" font-size="86" fill="#fff" text-anchor="middle">majaraStory</text>
+<text x="540" y="940" font-family="'Montserrat', sans-serif" font-weight="700" font-size="76" fill="#fff" text-anchor="middle">majaraStory</text>
 </svg>`;
-fs.writeFileSync("majara.html", `<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Pacifico&display=block" rel="stylesheet"><style>html,body{margin:0;background:#000}</style></head><body>${svg}</body></html>`);
+fs.writeFileSync("majara.html", `<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=block" rel="stylesheet"><style>html,body{margin:0;background:#000}</style></head><body>${svg}</body></html>`);
