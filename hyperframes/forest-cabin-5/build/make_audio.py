@@ -112,6 +112,15 @@ for k, d in enumerate((0.0, 0.12, 0.2, 0.33)): add(fx, thud(140 + k * 30, 0.2, 1
 for k in range(5): add(fx, thud(90, 0.2, 1.0), f11 + 0.75 + k * 0.25, 0.15)
 for k in range(int(TOTAL - f11)): add(fx, tick(2500 if k % 2 else 1800), f11 + 0.2 + k, 0.12 if f11 + k > f11 + 3.8 else 0.06)
 
+# no background at all under the narrator's words (ramps of 0.15 s around each spoken stretch)
+NJ = json.load(open(os.path.join(HERE, "narration.json")))["scenes"]; WJ = json.load(open(os.path.join(HERE, "words.json")))
+duck = np.ones(N)
+for c in NJ:
+    for w in WJ[c["shot"]]["words"]:
+        a, b = S[c["shot"]] + c["offset"] + w["start"] - 0.15, S[c["shot"]] + c["offset"] + w["end"] + 0.15
+        i0, i1 = max(0, at(a)), min(N, at(b)); duck[i0:i1] = 0
+k = int(0.15 * SR); duck = np.convolve(duck, np.ones(k) / k, mode="same")
+amb *= duck; fx *= duck
 mix = amb + fx * np.interp(t, [0, SIL0, SIL0 + 0.01, SIL1, SIL1 + 0.01, TOTAL + 1], [1, 1, 0, 0, 1, 1])
 fade = np.interp(t, [0, 0.4, TOTAL - 0.6, TOTAL], [0, 1, 1, 0]); mix *= fade
 mix = np.tanh(mix * 1.1) / 1.1

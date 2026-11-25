@@ -19,7 +19,7 @@ if (!only) {
   const N = JSON.parse(fs.readFileSync(path.join(HERE, "narration.json"), "utf8")).scenes, W = JSON.parse(fs.readFileSync(path.join(HERE, "words.json"), "utf8"));
   const words = N.flatMap((c) => W[c.shot].words.map((w) => ({ ...w, start: w.start + starts[c.shot] + c.offset, end: w.end + starts[c.shot] + c.offset })));
   audio = N.map((c, i) => `      <audio id="nar-${i + 1}" class="clip" src="${c.audio}" data-start="${(starts[c.shot] + c.offset).toFixed(2)}" data-duration="${W[c.shot].duration}" data-track-index="4" data-volume="1"></audio>`).join("\n")
-    + (fs.existsSync(path.join(root, "assets/audio/fx.mp3")) ? `\n      <audio id="fx" class="clip" src="assets/audio/fx.mp3" data-start="0" data-duration="${total}" data-track-index="3" data-volume="0.6"></audio>` : "")
+    + (fs.existsSync(path.join(root, "assets/audio/fx.mp3")) ? `\n      <audio id="fx" class="clip" src="assets/audio/fx.mp3" data-start="0" data-duration="${total}" data-track-index="3" data-volume="0.03"></audio>` : "")
     + `\n      <div id="cap" data-composition-id="cap" data-composition-src="compositions/cap.html" data-start="0" data-duration="${total}" data-track-index="2" data-track-kind="captions" data-width="1080" data-height="1920"></div>`;
   const pages = [];
   words.forEach((w, i) => { if (!pages.length || pages[pages.length - 1].length >= 4 || w.start - words[i - 1].end > 0.4) pages.push([]); pages[pages.length - 1].push(w); });

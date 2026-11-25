@@ -8,7 +8,12 @@ const { RED, OLD, BLUE, WHITE } = C;
 let seed = 7;
 const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
 const WET = { ...RED, shirt: "#8e2a28", shirtSh: "#6e1e1c", hair: "#140e0b" };
-const RED_T = (id, extra = {}) => C.friend(id, WET, { kind: "wavy", mouth: "tense", ...extra });
+// red T-shirt over blue jeans (the bust's shirt otherwise runs to the bottom of the frame)
+const JEANS = `<path d="M -196,560 L 196,560 L 206,1300 L -206,1300 Z" fill="#2c3650"/><path d="M -196,560 L 196,560 L 197,590 L -197,590 Z" fill="#3a2418"/>
+  <rect x="-22" y="558" width="44" height="36" rx="4" fill="#b8963a"/><path d="M 0,594 L 0,840" stroke="#232b40" stroke-width="6"/><path d="M -30,1300 L 0,850 L 30,1300 Z" fill="#120a06"/>
+  <path d="M -190,620 C -140,640 -90,640 -60,620 M 190,620 C 140,640 90,640 60,620" stroke="#232b40" stroke-width="5" fill="none"/>
+  <path d="M -200,552 C -100,566 100,566 200,552 L 200,566 C 100,580 -100,580 -200,566 Z" fill="${"#6e1e1c"}"/>`;
+const RED_T = (id, extra = {}) => C.friend(id, WET, { kind: "wavy", mouth: "tense", torsoExtra: JEANS, ...extra });
 const OLD_M = (id, extra = {}) => C.friend(id, OLD, { kind: "old", beard: true, wrinkles: true, mouth: "old", ...extra });
 // the old man's trousers and boots instead of jeans and sneakers
 const oldFix = (s) => s.replace(/#2c3650/g, "#3a3028").replace(/#232b40/g, "#2a221c").replace(/#eceef2/g, "#2a1c14").replace(/#9aa0ac/g, "#1a120c");
