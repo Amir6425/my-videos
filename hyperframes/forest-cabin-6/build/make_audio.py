@@ -1,0 +1,92 @@
+"""Ambience and effects for part six, all synthesised (deterministic). Rain on the roof, fire crackle, an occasional
+gust, under the narrator; plus the cues of each shot. Writes assets/audio/fx.mp3. Run after build/build.mjs (timing.json)."""
+import json, os, subprocess
+import numpy as np
+HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(HERE, "..")
+TM = json.load(open(os.path.join(HERE, "timing.json"))); TOTAL, S = TM["total"], TM["starts"]
+SR = 44100; N = int((TOTAL + 0.5) * SR); t = np.arange(N) / SR
+rng = np.random.default_rng(5)
+
+def lp(x, a):  # one-pole low-pass, a in (0,1): higher = darker
+    y = np.empty_like(x); acc = 0.0
+    for i in range(len(x)): acc = a * acc + (1 - a) * x[i]; y[i] = acc
+    return y
+def lpf(x, fc):  # fast FFT low-pass
+    X = np.fft.rfft(x); f = np.fft.rfftfreq(len(x), 1 / SR); X[f > fc] = 0; return np.fft.irfft(X, len(x))
+def bpf(x, lo, hi):
+    X = np.fft.rfft(x); f = np.fft.rfftfreq(len(x), 1 / SR); X[(f < lo) | (f > hi)] = 0; return np.fft.irfft(X, len(x))
+def at(sec): return int(sec * SR)
+def add(buf, sig, sec, g=1.0):
+    i = at(sec); j = min(len(buf), i + len(sig))
+    if i < len(buf): buf[i:j] += g * sig[: j - i]
+def env(n, a=0.005, r=0.1):
+    e = np.ones(n); na, nr = min(n, int(a * SR)), min(n, int(r * SR))
+    e[:na] = np.linspace(0, 1, na); e[n - nr:] *= np.linspace(1, 0, nr); return e
+
+amb = np.zeros(N); fx = np.zeros(N)
+noise = rng.standard_normal(N)
+rain = bpf(noise, 400, 6000) * 0.035 + lpf(rng.standard_normal(N), 900) * 0.03
+drops = np.zeros(N); idx = rng.integers(0, N - 2000, int(TOTAL * 70))
+for i in idx: drops[i:i + 400] += np.exp(-np.arange(400) / 60) * rng.uniform(0.01, 0.04) * np.sin(np.arange(400) * rng.uniform(0.3, 0.8))
+rain += drops
+fire = lpf(rng.standard_normal(N), 200) * 0.04
+for c in rng.uniform(0, TOTAL, int(TOTAL * 5)):
+    n = int(rng.uniform(0.004, 0.02) * SR); add(fire, bpf(rng.standard_normal(n + 64), 1500, 8000)[:n] * np.exp(-np.arange(n) / (n / 4)) * rng.uniform(0.03, 0.1), c)
+windn = bpf(rng.standard_normal(N), 150, 1200)
+wind = windn * (0.5 + 0.5 * np.sin(2 * np.pi * 0.05 * t) ** 2) * 0.035
+amb = rain + fire + wind
+
+def breath(dur, f0=600, f1=2400):
+    n = int(dur * SR); x = bpf(rng.standard_normal(n + 512), f0, f1)[:n]; return x * np.sin(np.linspace(0, np.pi, n)) ** 1.5
+def thud(f=70, dur=0.35, g=1.0):
+    n = int(dur * SR); k = np.arange(n) / SR; return g * (np.sin(2 * np.pi * f * k * (1 - 0.3 * k)) * np.exp(-k * 12) + 0.15 * bpf(rng.standard_normal(n + 64), 200, 2000)[:n] * np.exp(-k * 40))
+def tick(f):
+    n = int(0.03 * SR); k = np.arange(n) / SR; return bpf(rng.standard_normal(n + 64), f, f * 3)[:n] * np.exp(-k * 250)
+def slide(dur, lo=150, hi=1500):
+    n = int(dur * SR); k = np.arange(n) / SR; return bpf(rng.standard_normal(n + 512), lo, hi)[:n] * env(n, 0.05, 0.1) * (0.7 + 0.3 * np.sin(2 * np.pi * 31 * k))
+def rustle(dur):
+    n = int(dur * SR); k = np.arange(n) / SR; return bpf(rng.standard_normal(n + 512), 2000, 9000)[:n] * env(n, 0.02, 0.08) * (0.4 + 0.6 * np.abs(np.sin(2 * np.pi * 9 * k)))
+def heartbeat(t0, t1, bpm, g):
+    p = 60 / bpm; x = t0
+    while x < t1: add(fx, thud(52, 0.25, 1.0), x, g); add(fx, thud(46, 0.22, 0.7), x + 0.28, g); x += p
+def low(dur=1.5, f=42, g=1.0):
+    n = int(dur * SR); k = np.arange(n) / SR; return g * (np.sin(2 * np.pi * f * k) + 0.5 * np.sin(2 * np.pi * f * 1.5 * k)) * np.exp(-k * 3)
+
+# the clock ticks under everything (quietly), louder when it matters
+for k in range(int(TOTAL)):
+    x = 0.3 + k; loud = (S["g3"] <= x < S["g5"]) or (S["g8"] + 2.3 <= x < S["g9"])
+    add(fx, tick(2500 if k % 2 else 1800), x, 0.16 if loud else 0.05)
+heartbeat(S["g2"] + 3.9, S["g3"], 84, 0.14)
+add(fx, slide(1.3, 120, 1200), S["g4"] + 0.5, 0.25)
+add(fx, slide(0.5, 200, 1500), S["g5"] + 0.75, 0.1); add(fx, rustle(0.6), S["g5"] + 3.2, 0.12)
+add(fx, rustle(0.9), S["g6"] + 0.0, 0.1)
+add(fx, low(1.4, 40), S["g7"] + 0.1, 0.45); heartbeat(S["g7"] + 0.2, S["g8"] + 2.0, 100, 0.16)
+add(fx, low(1.6, 36, 0.6), S["g8"] + 5.2, 0.3)
+add(fx, low(1.4, 44, 0.5), S["g9"] + 10.8, 0.3)
+add(fx, slide(0.4, 300, 2500), S["g10"] + 2.7, 0.12); add(fx, thud(120, 0.2), S["g10"] + 3.1, 0.15)
+add(fx, rustle(0.5), S["g11"] + 1.3, 0.14)
+for k in range(6): add(fx, thud(80, 0.25), S["g12"] + 0.2 + k * 0.35, 0.12)
+add(fx, slide(0.7, 120, 1200), S["g13"] + 2.8, 0.25); add(fx, rustle(0.5), S["g13"] + 5.1, 0.14)
+for k in range(8): add(fx, thud(160, 0.12) + slide(0.12, 400, 3000) * 0.5, S["g14"] + 0.4 + k * 0.22, 0.14)
+add(fx, slide(0.3, 120, 1500), S["g14"] + 2.3, 0.35); add(fx, thud(70, 0.4), S["g14"] + 2.45, 0.3); add(fx, rustle(0.5), S["g14"] + 4.0, 0.14)
+add(fx, slide(0.5, 300, 3000), S["g15"] + 0.1, 0.15); [add(fx, rustle(0.25), S["g15"] + 0.9 + k * 0.3, 0.12) for k in range(3)]
+add(fx, rustle(0.5), S["g15"] + 2.1, 0.12)
+n = int(0.25 * SR); kk = np.arange(n) / SR; add(fx, (np.sin(2 * np.pi * 2100 * kk) * 0.6 + np.sin(2 * np.pi * 3400 * kk) * 0.4) * np.exp(-kk * 30), S["g15"] + 4.5, 0.15)
+for q in range(4): add(fx, rustle(0.7) + slide(0.7, 400, 3000)[:len(rustle(0.7))] * 0.4, S["g17"] + 0.4 + q * 0.6, 0.12)
+n = int(3.0 * SR); kk = np.arange(n) / SR; add(fx, (np.sin(2 * np.pi * 55 * kk) + 0.6 * np.sin(2 * np.pi * 82.5 * kk) + 0.4 * np.sin(2 * np.pi * 110 * kk)) * env(n, 0.4, 1.8), S["g17"] + 5.3, 0.18)
+
+# under the narrator: the bed and the effects drop to 40%, never to nothing
+NJ = json.load(open(os.path.join(HERE, "narration.json")))["scenes"]; WJ = json.load(open(os.path.join(HERE, "words.json")))
+duck = np.ones(N)
+for c in NJ:
+    for w in WJ[c["shot"]]["words"]:
+        a, b = S[c["shot"]] + c["offset"] + w["start"] - 0.15, S[c["shot"]] + c["offset"] + w["end"] + 0.15
+        duck[max(0, at(a)):min(N, at(b))] = 0.4
+k = int(0.15 * SR); duck = np.convolve(duck, np.ones(k) / k, mode="same")
+mix = (amb + fx) * duck
+fade = np.interp(t, [0, 0.4, TOTAL - 0.8, TOTAL], [0, 1, 1, 0]); mix *= fade
+mix = np.tanh(mix * 1.1) / 1.1
+st = np.stack([mix, mix], 1)
+raw = (np.clip(st, -1, 1) * 32767).astype(np.int16).tobytes()
+subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", "-f", "s16le", "-ar", str(SR), "-ac", "2", "-i", "-", "-c:a", "libmp3lame", "-b:a", "192k", os.path.join(ROOT, "assets/audio/fx.mp3")], input=raw, check=True)
+print("fx.mp3", TOTAL, "s")

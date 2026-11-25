@@ -56,7 +56,7 @@ const dropsJs = (id, pts, dur, fall = 260) => pts.map((_, i) => { const per = 0.
 
 // ── set pieces ───────────────────────────────────────────────────────────────────────────────────
 // the alarm clock: base at (0,0); time 11:47, the gold alarm hand set to 6 (06:00), red seconds hand ticks
-function clock(id) {
+function clock(id, { h = 353.5, m = 282, s0 = 120 } = {}) {
   const cy = -96, R = 60;
   const ticks = [...Array(12)].map((_, i) => { const a = i * 30 * Math.PI / 180, r1 = i % 3 ? 50 : 44;
     return `<path d="M ${(r1 * Math.sin(a)).toFixed(1)},${(-r1 * Math.cos(a)).toFixed(1)} L ${(54 * Math.sin(a)).toFixed(1)},${(-54 * Math.cos(a)).toFixed(1)}" stroke="#2a2018" stroke-width="${i % 3 ? 2 : 4}"/>`; }).join("");
@@ -69,9 +69,9 @@ function clock(id) {
     <circle cx="0" cy="${cy}" r="${R + 8}" fill="#b08a3a"/><circle cx="0" cy="${cy}" r="${R + 2}" fill="#d9b45a"/><circle cx="0" cy="${cy}" r="${R - 2}" fill="#f2ead6"/>
     <g transform="translate(0,${cy})">${ticks}${num(12, 0)}${num(3, Math.PI / 2)}${num(6, Math.PI)}${num(9, Math.PI * 1.5)}
       <g transform="rotate(180)"><path d="M -2,6 L 2,6 L 1.5,-40 L -1.5,-40 Z" fill="#c9a24a"/><path d="M -7,-36 L 7,-36 L 0,-48 Z" fill="#c9a24a"/></g>
-      <g transform="rotate(353.5)"><path d="M -4,6 L 4,6 L 2,-30 L -2,-30 Z" fill="#1a140e"/></g>
-      <g transform="rotate(282)"><path d="M -3,8 L 3,8 L 1.5,-46 L -1.5,-46 Z" fill="#1a140e"/></g>
-      <g id="${id}-sec" transform="rotate(120)"><path d="M -1,12 L 1,12 L 0.6,-50 L -0.6,-50 Z" fill="#b8282a"/></g>
+      <g transform="rotate(${h})"><path d="M -4,6 L 4,6 L 2,-30 L -2,-30 Z" fill="#1a140e"/></g>
+      <g transform="rotate(${m})"><path d="M -3,8 L 3,8 L 1.5,-46 L -1.5,-46 Z" fill="#1a140e"/></g>
+      <g id="${id}-sec" transform="rotate(${s0})"><path d="M -1,12 L 1,12 L 0.6,-50 L -0.6,-50 Z" fill="#b8282a"/></g>
       <circle r="5" fill="#2a2018"/><circle r="2" fill="#c9a24a"/></g>
     <path d="M -44,${cy - 30} C -30,${cy - 52} 0,${cy - 58} 20,${cy - 54}" stroke="#fff" stroke-width="5" fill="none" opacity="0.35" stroke-linecap="round"/>
   </g>`;
@@ -113,7 +113,7 @@ function chair(id) {
     <rect x="-130" y="-10" width="260" height="34" rx="6" fill="#5a3a20"/><rect x="-120" y="24" width="20" height="200" fill="#3a2414"/><rect x="100" y="24" width="20" height="200" fill="#3a2414"/></g>`;
 }
 // the room seen from the middle of the floor: door left, window centre-left, desk, stone fireplace right
-function room(id, { door = true, deskItems = "", kettleOn = true, fireGlow = true, deskOn = true } = {}) {
+function room(id, { hat = true, door = true, deskItems = "", kettleOn = true, fireGlow = true, deskOn = true } = {}) {
   seed = 11;
   const logs = [...Array(24)].map((_, i) => `<rect x="0" y="${120 + i * 54}" width="1080" height="50" rx="22" fill="${i % 2 ? "#3a2616" : "#33210f"}"/><path d="M ${(i * 137) % 900},${140 + i * 54} l 60,4" stroke="#24160a" stroke-width="3"/>`).join("");
   const stones = [...Array(60)].map((_, i) => { const c = i % 6, r = Math.floor(i / 6); const x = 650 + c * 64 + (r % 2) * 30, y = 660 + r * 72;
@@ -129,7 +129,7 @@ function room(id, { door = true, deskItems = "", kettleOn = true, fireGlow = tru
     ${door ? `<g><rect x="20" y="700" width="230" height="710" fill="#1a1008"/><rect x="34" y="714" width="202" height="696" fill="#4a3020"/>
       ${[0, 1, 2, 3].map((i) => `<rect x="${40 + i * 50}" y="720" width="44" height="684" fill="${i % 2 ? "#52361f" : "#4a3020"}"/>`).join("")}
       <rect x="40" y="820" width="190" height="20" fill="#2a1a0e"/><rect x="40" y="1260" width="190" height="20" fill="#2a1a0e"/><circle cx="210" cy="1060" r="12" fill="#8a7040"/></g>
-      <circle cx="292" cy="760" r="6" fill="#1a1008"/><g transform="translate(292,792) scale(0.42)"><g id="${id}-nailhat">${FELT}</g></g>` : ""}
+      <circle cx="292" cy="760" r="6" fill="#1a1008"/>${hat ? `<g transform="translate(292,792) scale(0.42)"><g id="${id}-nailhat">${FELT}</g></g>` : ""}` : ""}
     <g><rect x="320" y="520" width="290" height="400" fill="#1a1008"/><rect x="336" y="536" width="258" height="368" fill="#0b1430"/>
       <clipPath id="${id}-wclip"><rect x="336" y="536" width="258" height="368"/></clipPath><g clip-path="url(#${id}-wclip)"><g id="${id}-rn">${rain}<g transform="translate(0,420)">${rain}</g></g>
         ${[...Array(5)].map((_, i) => `<path d="M ${330 + i * 70},904 L ${360 + i * 70},760 L ${390 + i * 70},904 Z" fill="#050a14"/>`).join("")}</g>
@@ -432,3 +432,5 @@ function f11(dur) {
 
 export const DURS = { f1: 8.2, f2: 3.4, f3: 3.4, f4: 6.0, f5: 5.0, f6: 6.2, f7: 4.8, f8: 5.2, f9: 6.0, f10: 7.0, f11: 6.0 };
 export default [f1(DURS.f1), f2(DURS.f2), f3(DURS.f3), f4(DURS.f4), f5(DURS.f5), f6(DURS.f6), f7(DURS.f7), f8(DURS.f8), f9(DURS.f9), f10(DURS.f10), f11(DURS.f11)];
+
+export { room, roomDefs, desk, deskClock, clock, mapScrap, glass, kettle, chair, FELT, OLD_M, JEANS, WET, fireJs, rainJs, tickJs, shakeJs, tw, T, walk, armTo, drops, dropsJs, warm, dark };
