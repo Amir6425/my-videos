@@ -1,0 +1,70 @@
+{
+ "scenes": [
+  {
+   "shot": "f1",
+   "audio": "assets/audio/f1.mp3",
+   "offset": 0.4,
+   "text": "آرش هنوز نَفَس‌نَفَس می‌زد. لباس‌هایش خیس بود و دست‌هایش می‌لرزید."
+  },
+  {
+   "shot": "f2",
+   "audio": "assets/audio/f2.mp3",
+   "offset": 0.4,
+   "text": "پیرمرد گفت: «تنها موندی؟»"
+  },
+  {
+   "shot": "f3",
+   "audio": "assets/audio/f3.mp3",
+   "offset": 0.4,
+   "text": "آرش گفت: «بله…»"
+  },
+  {
+   "shot": "f4",
+   "audio": "assets/audio/f4.mp3",
+   "offset": 0.4,
+   "text": "پیرمرد گفت: «پس تو هم انتخاب نشدی.»"
+  },
+  {
+   "shot": "f5",
+   "audio": "assets/audio/f5.mp3",
+   "offset": 0.4,
+   "text": "پیرمرد بی‌آن‌که چیز دیگری بگوید، به سمت شومینه رفت."
+  },
+  {
+   "shot": "f6",
+   "audio": "assets/audio/f6.mp3",
+   "offset": 0.4,
+   "text": "کتری را برداشت و در یک استکان چای ریخت. چای را روی میز گذاشت."
+  },
+  {
+   "shot": "f7",
+   "audio": "assets/audio/f7.mp3",
+   "offset": 0.4,
+   "text": "بعد گفت: «بخور. شب درازی در پیش داری.»"
+  },
+  {
+   "shot": "f8",
+   "audio": "assets/audio/f8.mp3",
+   "offset": 0.4,
+   "text": "«دوستام… یهو غیب شدن. شما چیزی دیدید؟»"
+  },
+  {
+   "shot": "f9",
+   "audio": "assets/audio/f9e.mp3",
+   "offset": 0.4,
+   "text": "پیرمرد گفت: «جنگل خیلی چیزها می‌بینه، اما من فقط گوش می‌دم.»"
+  },
+  {
+   "shot": "f10",
+   "audio": "assets/audio/f10.mp3",
+   "offset": 0.4,
+   "text": "بعد، پیرمرد کلاهش را برداشت، در را باز کرد و رفت بیرون."
+  },
+  {
+   "shot": "f11",
+   "audio": "assets/audio/f11.mp3",
+   "offset": 0.4,
+   "text": "آرش فریاد زد: «صبر کنید! کجا می‌رید؟»"
+  }
+ ]
+}
