@@ -100,14 +100,14 @@ function flicker(sel, dur, base, amp) {
 
     const S = "g12";
     
-    tl.fromTo("#g12-rn", { y: -900 }, { y: 0, duration: 0.5, ease: "none", repeat: 9 }, 0);
+    tl.fromTo("#g12-rn", { y: -900 }, { y: 0, duration: 0.5, ease: "none", repeat: 8 }, 0);
     tl.fromTo("#g12-pos", { attr: { transform: "translate(540,1240) scale(1.1) rotate(0)" } }, { attr: { transform: "translate(540,1060) scale(1.4) rotate(0)" }, duration: 2.2, ease: "sine.inOut" }, 0);
     tl.fromTo("#g12-pos", { y: 0 }, { y: -10, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 5 }, 0);
     tl.to("#g12-k-head", { y: 14, rotation: 2, transformOrigin: "50% 80%", duration: 1.0, ease: "sine.inOut" }, 2.6);
-    cam("win", { scale: 1.0 }, { scale: 1.06 }, 0, 4.1);
+    cam("win", { scale: 1.0 }, { scale: 1.06 }, 0, 3.875);
     
     
-    tl.to({}, { duration: 4.1 }, 0);
+    tl.to({}, { duration: 3.875 }, 0);
     window.__timelines["g12"] = tl;
     })();
   </script>

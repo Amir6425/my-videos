@@ -383,10 +383,10 @@ function flicker(sel, dur, base, amp) {
     tl.to("#g17-q0", { attr: { transform: "translate(-200,-200) scale(1) rotate(0)" }, duration: 0.9, ease: "power2.inOut" }, 0.40); tl.to("#g17-q1", { attr: { transform: "translate(200,-200) scale(1) rotate(0)" }, duration: 0.9, ease: "power2.inOut" }, 1.00); tl.to("#g17-q2", { attr: { transform: "translate(-200,200) scale(1) rotate(0)" }, duration: 0.9, ease: "power2.inOut" }, 1.60); tl.to("#g17-q3", { attr: { transform: "translate(200,200) scale(1) rotate(0)" }, duration: 0.9, ease: "power2.inOut" }, 2.20);
     cam("t", { scale: 1.08, origin: "540px 880px" }, { scale: 0.98, origin: "540px 880px" }, 0, 3.2);
     tl.fromTo("#g17-rg0", { opacity: 0.9, attr: { r: 44 } }, { opacity: 0, attr: { r: 110 }, duration: 0.9, ease: "power2.out", repeat: 2 }, 5.40); tl.fromTo("#g17-rg1", { opacity: 0.9, attr: { r: 44 } }, { opacity: 0, attr: { r: 110 }, duration: 0.9, ease: "power2.out", repeat: 2 }, 5.65); tl.fromTo("#g17-rg2", { opacity: 0.9, attr: { r: 44 } }, { opacity: 0, attr: { r: 110 }, duration: 0.9, ease: "power2.out", repeat: 2 }, 5.90);
-    tl.to("#g17-t", { scale: 1.06, transformOrigin: "540px 880px", duration: 2.70, ease: "sine.inOut" }, 5.3);
+    tl.to("#g17-t", { scale: 1.06, transformOrigin: "540px 880px", duration: 2.32, ease: "sine.inOut" }, 5.3);
     
     
-    tl.to({}, { duration: 8 }, 0);
+    tl.to({}, { duration: 7.619 }, 0);
     window.__timelines["g17"] = tl;
     })();
   </script>

@@ -17,7 +17,7 @@
       <g id="g6-sh"><g transform="translate(540,900) rotate(-3)">
         <path d="M -440,-330 L 430,-350 L 446,330 L -430,350 Z" fill="#000" opacity="0.4" transform="translate(16,20)"/>
         <path d="M -440,-330 L 430,-350 L 446,330 L -430,350 Z" fill="#dccb8e"/><path d="M -440,-330 L 430,-350 L 446,330 L -430,350 Z" fill="url(#g6-ns)"/><path d="M -436,0 L 440,-10" stroke="#b8a464" stroke-width="6"/>
-        <g id="g6-l0" opacity="0"><text x="20" y="-90" font-family="Ruqaa" font-weight="700" font-size="92" fill="#1e120c" text-anchor="middle" transform="rotate(-3 20 -90)">دوستانت تا طلوع زنده‌اند…</text></g>
+        <g id="g6-l0" opacity="0"><text x="20" y="-90" font-family="Ruqaa" font-weight="700" font-size="74" fill="#1e120c" text-anchor="middle" transform="rotate(-3 20 -90)">دوستانت فقط تا طلوع صبح زنده‌اند…</text></g>
         <g id="g6-l1" opacity="0"><text x="-10" y="140" font-family="Ruqaa" font-weight="700" font-size="92" fill="#1e120c" text-anchor="middle" transform="rotate(2 -10 140)">جنگل جواب را می‌داند</text></g></g>
         <g transform="translate(60,1300) rotate(35)"><g transform="scale(1,1)"><rect x="-58" y="0" width="116" height="700" fill="#6e1e1c"/><rect x="-62" y="0" width="124" height="34" fill="#5a1614"/>
   <path d="M -50,0 C -56,-50 -50,-90 -36,-104 L 40,-104 C 56,-84 58,-40 50,0 Z" fill="#d9a07a"/><path d="M -36,-104 C -40,-132 -30,-142 -18,-128 L -10,-104 Z M 2,-106 C 0,-142 16,-148 22,-120 L 24,-104 Z" fill="#c08562"/>
@@ -84,15 +84,15 @@ function flicker(sel, dur, base, amp) {
     
     
     (function () { const el = document.querySelector("#g6-sh"); const o = { t: 0 };
-  tl.fromTo(o, { t: 0 }, { t: 5.5, duration: 5.5, ease: "none", onUpdate() { const t = o.t;
+  tl.fromTo(o, { t: 0 }, { t: 5.215, duration: 5.215, ease: "none", onUpdate() { const t = o.t;
     const x = 3 * (Math.sin(t * 7.3 * 0.7) * 0.6 + Math.sin(t * 13.1 * 0.7 + 1) * 0.4), y = 3 * (Math.sin(t * 9.7 * 0.7 + 2) * 0.6 + Math.sin(t * 17.3 * 0.7) * 0.4);
     el.setAttribute("transform", "translate(" + x.toFixed(1) + "," + y.toFixed(1) + ")"); } }, 0); })();
-    cam("note", { scale: 1.0 }, { scale: 1.08, origin: "540px 900px" }, 0, 5.5);
-    tl.fromTo("#g6-l0", { opacity: 0 }, { opacity: 1, duration: 1.4, ease: "none" }, 0.45);
+    cam("note", { scale: 1.0 }, { scale: 1.08, origin: "540px 900px" }, 0, 5.215);
+    tl.fromTo("#g6-l0", { opacity: 0 }, { opacity: 1, duration: 2.4, ease: "none" }, 0.45);
     tl.fromTo("#g6-l1", { opacity: 0 }, { opacity: 1, duration: 1.3, ease: "none" }, 3.35);
     
     
-    tl.to({}, { duration: 5.5 }, 0);
+    tl.to({}, { duration: 5.215 }, 0);
     window.__timelines["g6"] = tl;
     })();
   </script>

@@ -122,7 +122,7 @@ const DESK_DEFS = (id) => pieceDefs(id + "s");
 
 // 1. minutes pass: wide; the cold tea; the shut door
 function g1(dur) {
-  const id = "g1", r = `${id}-r`, A = 1.8, B = 3.1;
+  const id = "g1", r = `${id}-r`, A = 1.85, B = 3.2;
   return { id, dur, html: scene({ id, dur, bg: "#0a0604", vignette: 0.85,
     layers: [
       { name: "room", defs: roomDefs(id) + DESK_DEFS(id), svg: `<g id="${id}-pa">${room(id, { deskOn: false, hat: false })}
@@ -166,7 +166,7 @@ function g2(dur) {
 }
 // 3. the ticking comes from the drawer: he turns, leans, listens; then the drawer
 function g3(dur) {
-  const id = "g3", r = `${id}-r`, A = 3.1;
+  const id = "g3", r = `${id}-r`, A = 2.9;
   const waves = [0, 1, 2].map((k) => `<path id="${id}-wv${k}" d="M -60,${-20 - k * 30} C -20,${-50 - k * 34} 20,${-50 - k * 34} 60,${-20 - k * 30}" stroke="#ffd890" stroke-width="5" fill="none" opacity="0"/>`).join("");
   return { id, dur, html: scene({ id, dur, bg: "#0a0604", vignette: 0.85,
     layers: [
@@ -187,7 +187,7 @@ function g3(dur) {
 }
 // 4. the drawer opens: a pocket watch beside the old man's glass; its face: 06:00
 function g4(dur) {
-  const id = "g4", A = 2.6, B = 6.3;
+  const id = "g4", A = 2.6, B = 6.6;
   const top = `<rect width="1080" height="1920" fill="#3a2414"/>${[...Array(8)].map((_, i) => `<path d="M 0,${60 + i * 120} C 300,${50 + i * 120} 700,${80 + i * 120} 1080,${56 + i * 120}" stroke="#2a180a" stroke-width="5" fill="none" opacity="0.7"/>`).join("")}`;
   return { id, dur, html: scene({ id, dur, bg: "#0a0604", vignette: 0.85,
     layers: [
@@ -195,9 +195,9 @@ function g4(dur) {
         <g transform="translate(700,420) scale(0.5) rotate(-6)">${piece(id + "s", 3)}</g><g transform="translate(700,470) scale(1.8)">${glass(`${id}-g`)}</g>
         <rect x="0" y="880" width="1080" height="40" fill="#2a1608"/>
         <g id="${id}-dr" transform="translate(0,0)"><rect x="140" y="760" width="800" height="560" fill="#2a1a0c"/><rect x="170" y="790" width="740" height="500" fill="#1a0f06"/>
-          <g transform="translate(420,1020) scale(1.15) rotate(8)">${foldedNote}</g><g transform="translate(470,1010) scale(1.25)">${pocketWatch(id)}</g>
+          <g transform="translate(420,1020) scale(1.15) rotate(8)">${foldedNote}</g><g id="${id}-wl" transform="translate(470,1010) scale(1.25)">${pocketWatch(id)}</g>
           <rect x="120" y="1300" width="840" height="200" rx="10" fill="#5a3a20" stroke="#2e1a0c" stroke-width="8"/><rect x="460" y="1380" width="160" height="34" rx="17" fill="#c9a24a"/></g>
-        <g id="${id}-hd" transform="translate(540,1500)">${hand()}</g>
+        <g id="${id}-hd" transform="translate(540,1500)">${hand()}</g><g id="${id}-hd2" transform="translate(470,2000) scale(0.9)">${hand()}</g>
         <rect width="1080" height="1920" fill="url(#${id}-wg)" style="mix-blend-mode:screen"/>${warm(0.2)}` },
     ],
     js: `
@@ -206,7 +206,9 @@ function g4(dur) {
     tl.to("#${id}-hd", { attr: { transform: "translate(540,2400)" }, duration: 0.6, ease: "power2.in" }, 2.0);
     cam("a", { scale: 1.0 }, { scale: 1.0 }, 0, 0.01);
     tl.to("#${id}-a", { scale: 1.55, transformOrigin: "470px 1010px", duration: 1.0, ease: "power2.inOut" }, ${A});
-    tl.to("#${id}-a", { scale: 2.6, transformOrigin: "470px 1010px", duration: 0.8, ease: "power2.inOut" }, ${B});
+    tl.to("#${id}-hd2", { attr: { transform: "translate(470,1230) scale(0.9)" }, duration: 0.45, ease: "power2.out" }, 5.35);
+    tl.to("#${id}-wl", { attr: { transform: "translate(470,930) scale(1.45)" }, duration: 0.6, ease: "power2.inOut" }, 5.8); tl.to("#${id}-hd2", { attr: { transform: "translate(470,1130) scale(0.9)" }, duration: 0.6, ease: "power2.inOut" }, 5.8);
+    tl.to("#${id}-a", { scale: 2.6, transformOrigin: "470px 930px", duration: 0.8, ease: "power2.inOut" }, ${B});
     ${[...Array(10)].map((_, k) => `tl.set("#${id}-colon", { opacity: ${k % 2 ? 1 : 0.15} }, ${(B + 0.4 + k * 0.5).toFixed(2)});`).join(" ")}
     ` }) };
 }
@@ -217,16 +219,12 @@ function g5(dur) {
     layers: [
       { name: "a", defs: lcdDefs(id), svg: `<rect width="1080" height="1920" fill="#1a0f06"/><rect x="40" y="200" width="1000" height="1500" fill="#140b05"/>
         <g id="${id}-np" transform="${T(540, 1040, 2.3, 8)}">${foldedNote}</g>
-        <g id="${id}-wp" transform="${T(560, 960, 2.4)}">${pocketWatch(id)}</g>
+        
         <g id="${id}-hd" transform="${T(560, 2300, 1.6)}">${hand()}</g>${warm(0.25)}` },
     ],
     js: `
-    tl.fromTo("#${id}-hd", { attr: { transform: "${T(560, 2300, 1.6)}" } }, { attr: { transform: "${T(560, 1130, 1.6)}" }, duration: 0.6, ease: "power2.out" }, 0.1);
-    tl.to("#${id}-wp", { attr: { transform: "${T(860, 300, 2.0, -20)}" }, duration: 0.9, ease: "power2.inOut" }, 0.75);
-    tl.to("#${id}-hd", { attr: { transform: "${T(860, 470, 1.6)}" }, duration: 0.9, ease: "power2.inOut" }, 0.75);
-    tl.set("#${id}-wp", { opacity: 0 }, 1.7); tl.to("#${id}-hd", { attr: { transform: "${T(560, 2300, 1.6)}" }, duration: 0.5, ease: "power2.in" }, 1.7);
     cam("a", { scale: 1.0 }, { scale: 1.12, origin: "540px 1040px" }, 0, ${dur});
-    tl.to("#${id}-hd", { attr: { transform: "${T(540, 1260, 1.6)}" }, duration: 0.5, ease: "power2.out" }, 2.6);
+    tl.fromTo("#${id}-hd", { attr: { transform: "${T(540, 2300, 1.6)}" } }, { attr: { transform: "${T(540, 1260, 1.6)}" }, duration: 0.5, ease: "power2.out" }, 2.7);
     tl.to(["#${id}-hd", "#${id}-np"], { attr: { transform: "${T(540, 700, 2.3, -4)}" }, duration: 0.6, ease: "power2.inOut" }, 3.2);
     ` }) };
 }
@@ -239,14 +237,14 @@ function g6(dur) {
       { name: "note", defs: `<radialGradient id="${id}-ns" cx="50%" cy="50%" r="70%"><stop offset="0.5" stop-color="#7a5a2a" stop-opacity="0"/><stop offset="1" stop-color="#6a4a1a" stop-opacity="0.5"/></radialGradient>`, svg: `<g id="${id}-sh"><g transform="translate(540,900) rotate(-3)">
         <path d="M -440,-330 L 430,-350 L 446,330 L -430,350 Z" fill="#000" opacity="0.4" transform="translate(16,20)"/>
         <path d="M -440,-330 L 430,-350 L 446,330 L -430,350 Z" fill="#dccb8e"/><path d="M -440,-330 L 430,-350 L 446,330 L -430,350 Z" fill="url(#${id}-ns)"/><path d="M -436,0 L 440,-10" stroke="#b8a464" stroke-width="6"/>
-        <g id="${id}-l0" opacity="0">${RUQT(20, -90, 92, "دوستانت تا طلوع زنده‌اند…", "#1e120c", -3)}</g>
+        <g id="${id}-l0" opacity="0">${RUQT(20, -90, 74, "دوستانت فقط تا طلوع صبح زنده‌اند…", "#1e120c", -3)}</g>
         <g id="${id}-l1" opacity="0">${RUQT(-10, 140, 92, "جنگل جواب را می‌داند", "#1e120c", 2)}</g></g>
         <g transform="translate(60,1300) rotate(35)">${hand(1)}</g><g transform="translate(1020,1300) rotate(-35)">${hand(-1, HC.skinSh)}</g></g>${warm(0.15)}` },
     ],
     js: `
     ${shakeJs(`#${id}-sh`, 0, dur, 3, 0.7)}
     cam("note", { scale: 1.0 }, { scale: 1.08, origin: "540px 900px" }, 0, ${dur});
-    tl.fromTo("#${id}-l0", { opacity: 0 }, { opacity: 1, duration: 1.4, ease: "none" }, 0.45);
+    tl.fromTo("#${id}-l0", { opacity: 0 }, { opacity: 1, duration: 2.4, ease: "none" }, 0.45);
     tl.fromTo("#${id}-l1", { opacity: 0 }, { opacity: 1, duration: 1.3, ease: "none" }, 3.35);
     ` }) };
 }
@@ -257,11 +255,14 @@ function g7(dur) {
     look("${r}", 0, 9, 0, 0.01); eyesOpen("${r}", 1.1, 0, 0.01); brows("${r}", -10, -12, 0, 0.01);
     tl.fromTo("#${r}-head", { y: 36, rotation: 4 }, { y: 0, rotation: 0, transformOrigin: "50% 90%", duration: 0.3, ease: "power3.out" }, 0.1);
     look("${r}", 0, 0, 0.12, 0.2); eyesOpen("${r}", 1.55, 0.15, 0.2); brows("${r}", -26, -14, 0.15, 0.2);
-    cam("char", { scale: 1.0 }, { scale: 1.1, origin: "50% 42%" }, 0, ${dur}, "power2.out");`) };
+    cam("char", { scale: 1.0 }, { scale: 1.1, origin: "50% 42%" }, 0, ${dur}, "power2.out");
+    look("${r}", -3, 2, 1.5, 0.3); eyesOpen("${r}", 1.25, 1.5, 0.3);
+    eyesOpen("${r}", 1.65, 3.3, 0.2); brows("${r}", -30, -16, 3.3, 0.2); look("${r}", 6, 4, 3.5, 0.25);
+    ${shakeJs(`#${id}-sh`, 3.3, dur - 3.3, 3, 0.9)}`) };
 }
 // 8. he looks at the clock: midnight. Six hours.
 function g8(dur) {
-  const id = "g8", r = `${id}-r`, A = 2.3;
+  const id = "g8", r = `${id}-r`, A = 1.45;
   const R = 220, arc = `M 0,${-R} A ${R},${R} 0 0 1 0,${R}`;
   return { id, dur, html: scene({ id, dur, bg: "#0a0604", vignette: 0.88,
     layers: [
@@ -272,15 +273,15 @@ function g8(dur) {
     ],
     js: `${tickJs(id, dur, 0)}
     look("${r}", -2, -2, 0, 0.01); eyesOpen("${r}", 1.3, 0, 0.01); brows("${r}", -18, -12, 0, 0.01);
-    look("${r}", 8, 7, 0.4, 0.4); tl.to("#${r}-head", { rotation: 5, x: 10, transformOrigin: "50% 85%", duration: 0.5 }, 0.4);
+    look("${r}", 8, 7, 0.6, 0.35); tl.to("#${r}-head", { rotation: 5, x: 10, transformOrigin: "50% 85%", duration: 0.45 }, 0.6);
     tl.set("#${id}-pa", { opacity: 0 }, ${A}); tl.set("#${id}-pb", { opacity: 1 }, ${A});
     cam("c", { scale: 1.0 }, { scale: 1.1, origin: "540px 940px" }, ${A}, ${(dur - A).toFixed(2)});
-    tl.to("#${id}-arc", { attr: { "stroke-dashoffset": 0 }, duration: 1.6, ease: "power1.inOut" }, 5.2);
+    tl.to("#${id}-arc", { attr: { "stroke-dashoffset": 0 }, duration: 1.6, ease: "power1.inOut" }, 3.75);
     ` }) };
 }
 // 9. on the wall by the bookshelf, a crooked frame; the photo; the scribbled face
 function g9(dur) {
-  const id = "g9", A = 6.0, B = 10.8;
+  const id = "g9", A = 4.45, B = 7.95;
   const frame = (pid) => `<g transform="rotate(9)"><rect x="-300" y="-240" width="600" height="480" fill="#3a2010"/><rect x="-282" y="-222" width="564" height="444" fill="#5a3418"/><g transform="scale(1.0)">${photo(pid)}</g></g>`;
   return { id, dur, html: scene({ id, dur, bg: "#0a0604", vignette: 0.88,
     layers: [
@@ -295,7 +296,7 @@ function g9(dur) {
     tl.set("#${id}-pa", { opacity: 0 }, ${A}); tl.set("#${id}-pb", { opacity: 1 }, ${A});
     cam("p", { scale: 1.0, origin: "540px 880px" }, { scale: 1.15, origin: "540px 880px" }, ${A}, ${(B - A).toFixed(2)});
     tl.to("#${id}-p", { scale: 3.2, transformOrigin: "${540 + 0}px ${880 + 30 * 1.65}px", duration: 1.0, ease: "power2.inOut" }, ${B});
-    tl.fromTo(".${id}b-sl", { attr: { "stroke-dashoffset": 90 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.25, stagger: 0.12, ease: "none" }, ${B + 0.6});
+    tl.fromTo(".${id}b-sl", { attr: { "stroke-dashoffset": 90 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.25, stagger: 0.1, ease: "none" }, 9.5);
     tl.set(".${id}a-sl", { attr: { "stroke-dashoffset": 0 } }, 0);
     ` }) };
 }
@@ -387,16 +388,15 @@ function g13(dur) {
 // 14. the third drawer sticks; two hands tug; it bursts open; another piece
 function g14(dur) {
   const id = "g14";
-  const extra = `<g id="${id}-mp" transform="${T(560, 1380, 0.5, 12)}">${piece(id + "m", 1)}</g>
+  const extra = `<g id="${id}-mp" opacity="0" transform="${T(560, 1380, 0.5, 12)}">${piece(id + "m", 1)}</g>
     <g id="${id}-hds" transform="translate(0,0)"><g transform="translate(470,1560) rotate(-10)">${hand(1)}</g><g transform="translate(610,1560) rotate(10)">${hand(-1, HC.skinSh)}</g></g>`;
   return { id, dur, html: drawerShot(id, dur, `
-    ${[...Array(8)].map((_, k) => `tl.to(["#${id}-d2", "#${id}-hds"], { x: ${k % 2 ? 10 : -10}, y: ${k % 2 ? 8 : 0}, duration: 0.1, ease: "none" }, ${(0.4 + k * 0.22).toFixed(2)});`).join(" ")}
-    tl.to(["#${id}-d2"], { x: 0, y: 330, scale: 1.12, transformOrigin: "540px 1390px", duration: 0.18, ease: "power4.out" }, 2.3);
-    tl.to("#${id}-hds", { x: 0, y: 520, duration: 0.25, ease: "power3.out" }, 2.3);
-    tl.to("#${id}-a", { scale: 0.92, y: 40, transformOrigin: "540px 1300px", duration: 0.2, ease: "power3.out" }, 2.3); tl.to("#${id}-a", { scale: 1.2, y: 0, duration: 0.8, ease: "power2.inOut" }, 2.6);
-    tl.to("#${id}-d2", { opacity: 0, duration: 0.01 }, 2.6);
-    tl.to("#${id}-hds", { y: 140, duration: 0.5, ease: "power2.out" }, 3.6);
-    tl.to("#${id}-mp", { attr: { transform: "${T(560, 900, 0.9, 4)}" }, duration: 0.6, ease: "back.out(1.6)" }, 4.0); tl.to("#${id}-hds", { y: -340, duration: 0.6, ease: "back.out(1.6)" }, 4.0);
+    ${[...Array(9)].map((_, k) => `tl.to(["#${id}-d2", "#${id}-hds"], { x: ${k % 2 ? 10 : -10}, y: ${k % 2 ? 8 : 0}, duration: 0.12, ease: "none" }, ${(0.3 + k * 0.3).toFixed(2)});`).join(" ")}
+    tl.to(["#${id}-d2"], { x: 0, y: 330, scale: 1.12, transformOrigin: "540px 1390px", duration: 0.16, ease: "power4.out" }, 3.0);
+    tl.to("#${id}-hds", { x: 0, y: 520, duration: 0.22, ease: "power3.out" }, 3.0);
+    tl.to("#${id}-a", { scale: 0.92, y: 40, transformOrigin: "540px 1300px", duration: 0.16, ease: "power3.out" }, 3.0); tl.to("#${id}-a", { scale: 1.15, y: 0, duration: 0.6, ease: "power2.inOut" }, 3.2);
+    tl.to("#${id}-d2", { opacity: 0, duration: 0.01 }, 3.25); tl.set("#${id}-mp", { opacity: 1 }, 3.1);
+    tl.to("#${id}-mp", { attr: { transform: "${T(560, 1000, 0.85, 4)}" }, duration: 0.45, ease: "back.out(1.6)" }, 3.45); tl.to("#${id}-hds", { y: -240, duration: 0.45, ease: "back.out(1.6)" }, 3.45);
     `, { which: 2, extra }) };
 }
 // 15. a book from the shelf: the third piece between the pages; then the cold tea lifted: the fourth under it
@@ -459,5 +459,8 @@ function g17(dur) {
     ` }) };
 }
 
-export const DURS = { g1: 4.9, g2: 6.1, g3: 4.6, g4: 10.0, g5: 4.4, g6: 5.5, g7: 1.3, g8: 7.6, g9: 14.2, g10: 3.8, g11: 8.0, g12: 4.1, g13: 6.7, g14: 5.0, g15: 6.0, g16: 4.9, g17: 8.0 };
+// each shot is exactly as long as its narration clip (cut at the pauses), so the voice runs on without a gap or a drift
+import fs from "node:fs";
+const WJ = JSON.parse(fs.readFileSync(new URL("./words.json", import.meta.url), "utf8"));
+export const DURS = Object.fromEntries(Object.entries(WJ).map(([k, v]) => [k, k === "g17" ? Math.round((v.duration + 0.7) * 1000) / 1000 : v.duration]));
 export default [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12, g13, g14, g15, g16, g17].map((f) => f(DURS[f.name]));

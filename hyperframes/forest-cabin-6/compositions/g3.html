@@ -209,16 +209,16 @@ function flicker(sel, dur, base, amp) {
     const S = "g3";
     
     (function () { const el = document.getElementById("g3-sec"); if (!el) return; const o = { t: 0 };
-  tl.to(o, { t: 4.6, duration: 4.6, ease: "none", onUpdate() { el.setAttribute("transform", "rotate(" + ((0 + Math.floor(o.t)) * 6) + ")"); } }, 0); })();
+  tl.to(o, { t: 4.99, duration: 4.99, ease: "none", onUpdate() { el.setAttribute("transform", "rotate(" + ((0 + Math.floor(o.t)) * 6) + ")"); } }, 0); })();
     look("g3-r", -8, 0, 0, 0.01); eyesOpen("g3-r", 1.1, 0, 0.01); brows("g3-r", -10, -10, 0, 0.01);
     look("g3-r", -4, 9, 1.0, 0.6); tl.to("#g3-r-head", { rotation: -8, x: -12, y: 14, transformOrigin: "50% 85%", duration: 1.0, ease: "sine.inOut" }, 1.0);
     tl.to("#g3-r-all", { rotation: -4, x: -20, y: 30, transformOrigin: "50% 100%", duration: 1.2, ease: "sine.inOut" }, 1.6);
-    cam("a", { scale: 1.0 }, { scale: 1.08, origin: "540px 1000px" }, 0, 3.1);
-    tl.set("#g3-pa", { opacity: 0 }, 3.1); tl.set("#g3-pb", { opacity: 1 }, 3.1); cam("b", { scale: 1.0 }, { scale: 1.08, origin: "260px 880px" }, 3.1, 1.50);
-    tl.fromTo("#g3-wv0", { opacity: 0.8 }, { opacity: 0, duration: 0.7 }, 3.25); tl.fromTo("#g3-wv0", { opacity: 0.8 }, { opacity: 0, duration: 0.7 }, 4.00); tl.fromTo("#g3-wv1", { opacity: 0.8 }, { opacity: 0, duration: 0.7 }, 3.33); tl.fromTo("#g3-wv1", { opacity: 0.8 }, { opacity: 0, duration: 0.7 }, 4.08); tl.fromTo("#g3-wv2", { opacity: 0.8 }, { opacity: 0, duration: 0.7 }, 3.41); tl.fromTo("#g3-wv2", { opacity: 0.8 }, { opacity: 0, duration: 0.7 }, 4.16);
+    cam("a", { scale: 1.0 }, { scale: 1.08, origin: "540px 1000px" }, 0, 2.9);
+    tl.set("#g3-pa", { opacity: 0 }, 2.9); tl.set("#g3-pb", { opacity: 1 }, 2.9); cam("b", { scale: 1.0 }, { scale: 1.08, origin: "260px 880px" }, 2.9, 2.09);
+    tl.fromTo("#g3-wv0", { opacity: 0.8 }, { opacity: 0, duration: 0.7 }, 3.05); tl.fromTo("#g3-wv0", { opacity: 0.8 }, { opacity: 0, duration: 0.7 }, 3.80); tl.fromTo("#g3-wv1", { opacity: 0.8 }, { opacity: 0, duration: 0.7 }, 3.13); tl.fromTo("#g3-wv1", { opacity: 0.8 }, { opacity: 0, duration: 0.7 }, 3.88); tl.fromTo("#g3-wv2", { opacity: 0.8 }, { opacity: 0, duration: 0.7 }, 3.21); tl.fromTo("#g3-wv2", { opacity: 0.8 }, { opacity: 0, duration: 0.7 }, 3.96);
     
     
-    tl.to({}, { duration: 4.6 }, 0);
+    tl.to({}, { duration: 4.99 }, 0);
     window.__timelines["g3"] = tl;
     })();
   </script>

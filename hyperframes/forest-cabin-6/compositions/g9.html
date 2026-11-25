@@ -616,15 +616,15 @@ function flicker(sel, dur, base, amp) {
     const S = "g9";
     
     
-    cam("w", { scale: 1.0 }, { scale: 1.5, origin: "330px 690px" }, 0, 6, "power1.inOut");
-    tl.set("#g9-pa", { opacity: 0 }, 6); tl.set("#g9-pb", { opacity: 1 }, 6);
-    cam("p", { scale: 1.0, origin: "540px 880px" }, { scale: 1.15, origin: "540px 880px" }, 6, 4.80);
-    tl.to("#g9-p", { scale: 3.2, transformOrigin: "540px 929.5px", duration: 1.0, ease: "power2.inOut" }, 10.8);
-    tl.fromTo(".g9b-sl", { attr: { "stroke-dashoffset": 90 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.25, stagger: 0.12, ease: "none" }, 11.4);
+    cam("w", { scale: 1.0 }, { scale: 1.5, origin: "330px 690px" }, 0, 4.45, "power1.inOut");
+    tl.set("#g9-pa", { opacity: 0 }, 4.45); tl.set("#g9-pb", { opacity: 1 }, 4.45);
+    cam("p", { scale: 1.0, origin: "540px 880px" }, { scale: 1.15, origin: "540px 880px" }, 4.45, 3.50);
+    tl.to("#g9-p", { scale: 3.2, transformOrigin: "540px 929.5px", duration: 1.0, ease: "power2.inOut" }, 7.95);
+    tl.fromTo(".g9b-sl", { attr: { "stroke-dashoffset": 90 } }, { attr: { "stroke-dashoffset": 0 }, duration: 0.25, stagger: 0.1, ease: "none" }, 9.5);
     tl.set(".g9a-sl", { attr: { "stroke-dashoffset": 0 } }, 0);
     
     
-    tl.to({}, { duration: 14.2 }, 0);
+    tl.to({}, { duration: 10.815 }, 0);
     window.__timelines["g9"] = tl;
     })();
   </script>

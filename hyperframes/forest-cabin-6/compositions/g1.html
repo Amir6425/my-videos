@@ -257,17 +257,17 @@ function flicker(sel, dur, base, amp) {
 
     const S = "g1";
     
-    (function () { const o = { t: 0 }; tl.to(o, { t: 4.9, duration: 4.9, ease: "none", onUpdate() { const t = o.t;
+    (function () { const o = { t: 0 }; tl.to(o, { t: 4.74, duration: 4.74, ease: "none", onUpdate() { const t = o.t;
   gsap.set("#g1-fl0", { scaleY: 0.85 + 0.18 * Math.sin(t * 7 + 0) + 0.08 * Math.sin(t * 17), scaleX: 1 + 0.06 * Math.sin(t * 5), transformOrigin: "50% 100%" }); gsap.set("#g1-fl1", { scaleY: 0.85 + 0.18 * Math.sin(t * 10.1 + 1) + 0.08 * Math.sin(t * 22), scaleX: 1 + 0.06 * Math.sin(t * 7.3), transformOrigin: "50% 100%" }); gsap.set("#g1-fl2", { scaleY: 0.85 + 0.18 * Math.sin(t * 13.2 + 2) + 0.08 * Math.sin(t * 27), scaleX: 1 + 0.06 * Math.sin(t * 9.6), transformOrigin: "50% 100%" });
   gsap.set("#g1-fglow", { opacity: 0.8 + 0.12 * Math.sin(t * 9.1) + 0.08 * Math.sin(t * 23.7 + 1.3) }); } }, 0); })(); tl.fromTo("#g1-rn", { y: -420 }, { y: 0, duration: 0.45, ease: "none", repeat: 11 }, 0); (function () { const el = document.getElementById("g1-sec"); if (!el) return; const o = { t: 0 };
-  tl.to(o, { t: 4.9, duration: 4.9, ease: "none", onUpdate() { el.setAttribute("transform", "rotate(" + ((0 + Math.floor(o.t)) * 6) + ")"); } }, 0); })();
+  tl.to(o, { t: 4.74, duration: 4.74, ease: "none", onUpdate() { el.setAttribute("transform", "rotate(" + ((0 + Math.floor(o.t)) * 6) + ")"); } }, 0); })();
     look("g1-r", -9, 0, 0, 0.01); eyesOpen("g1-r", 1.0, 0, 0.01); brows("g1-r", -6, -8, 0, 0.01);
-    cam("room", { scale: 1.0 }, { scale: 1.06, origin: "560px 1200px" }, 0, 1.8);
-    tl.set("#g1-pa", { opacity: 0 }, 1.8); tl.set("#g1-pb", { opacity: 1 }, 1.8); cam("tea", { scale: 1.0 }, { scale: 1.06, origin: "540px 1000px" }, 1.8, 1.3);
-    tl.set("#g1-pb", { opacity: 0 }, 3.1); tl.set("#g1-pc", { opacity: 1 }, 3.1); cam("door", { scale: 1.0 }, { scale: 1.05 }, 3.1, 1.80);
+    cam("room", { scale: 1.0 }, { scale: 1.06, origin: "560px 1200px" }, 0, 1.85);
+    tl.set("#g1-pa", { opacity: 0 }, 1.85); tl.set("#g1-pb", { opacity: 1 }, 1.85); cam("tea", { scale: 1.0 }, { scale: 1.06, origin: "540px 1000px" }, 1.85, 1.35);
+    tl.set("#g1-pb", { opacity: 0 }, 3.2); tl.set("#g1-pc", { opacity: 1 }, 3.2); cam("door", { scale: 1.0 }, { scale: 1.05 }, 3.2, 1.54);
     
     
-    tl.to({}, { duration: 4.9 }, 0);
+    tl.to({}, { duration: 4.74 }, 0);
     window.__timelines["g1"] = tl;
     })();
   </script>

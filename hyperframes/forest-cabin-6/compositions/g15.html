@@ -114,10 +114,10 @@ function flicker(sel, dur, base, amp) {
     tl.set("#g15-pa", { opacity: 0 }, 3); tl.set("#g15-pb", { opacity: 1 }, 3);
     tl.to("#g15-hd", { attr: { transform: "translate(600,1300) scale(2) rotate(0)" }, duration: 0.6, ease: "power2.out" }, 3.6);
     tl.to("#g15-gl", { attr: { transform: "translate(860,420) scale(2.6) rotate(0)" }, duration: 0.8, ease: "power2.inOut" }, 4.5); tl.to("#g15-hd", { attr: { transform: "translate(900,570) scale(2) rotate(0)" }, duration: 0.8, ease: "power2.inOut" }, 4.5);
-    cam("b", { scale: 1.0 }, { scale: 1.12, origin: "540px 1180px" }, 3, 3.00);
+    cam("b", { scale: 1.0 }, { scale: 1.12, origin: "540px 1180px" }, 3, 2.81);
     
     
-    tl.to({}, { duration: 6 }, 0);
+    tl.to({}, { duration: 5.81 }, 0);
     window.__timelines["g15"] = tl;
     })();
   </script>

@@ -185,15 +185,15 @@ function flicker(sel, dur, base, amp) {
     const S = "g8";
     
     (function () { const el = document.getElementById("g8-sec"); if (!el) return; const o = { t: 0 };
-  tl.to(o, { t: 7.6, duration: 7.6, ease: "none", onUpdate() { el.setAttribute("transform", "rotate(" + ((0 + Math.floor(o.t)) * 6) + ")"); } }, 0); })();
+  tl.to(o, { t: 6.43, duration: 6.43, ease: "none", onUpdate() { el.setAttribute("transform", "rotate(" + ((0 + Math.floor(o.t)) * 6) + ")"); } }, 0); })();
     look("g8-r", -2, -2, 0, 0.01); eyesOpen("g8-r", 1.3, 0, 0.01); brows("g8-r", -18, -12, 0, 0.01);
-    look("g8-r", 8, 7, 0.4, 0.4); tl.to("#g8-r-head", { rotation: 5, x: 10, transformOrigin: "50% 85%", duration: 0.5 }, 0.4);
-    tl.set("#g8-pa", { opacity: 0 }, 2.3); tl.set("#g8-pb", { opacity: 1 }, 2.3);
-    cam("c", { scale: 1.0 }, { scale: 1.1, origin: "540px 940px" }, 2.3, 5.30);
-    tl.to("#g8-arc", { attr: { "stroke-dashoffset": 0 }, duration: 1.6, ease: "power1.inOut" }, 5.2);
+    look("g8-r", 8, 7, 0.6, 0.35); tl.to("#g8-r-head", { rotation: 5, x: 10, transformOrigin: "50% 85%", duration: 0.45 }, 0.6);
+    tl.set("#g8-pa", { opacity: 0 }, 1.45); tl.set("#g8-pb", { opacity: 1 }, 1.45);
+    cam("c", { scale: 1.0 }, { scale: 1.1, origin: "540px 940px" }, 1.45, 4.98);
+    tl.to("#g8-arc", { attr: { "stroke-dashoffset": 0 }, duration: 1.6, ease: "power1.inOut" }, 3.75);
     
     
-    tl.to({}, { duration: 7.6 }, 0);
+    tl.to({}, { duration: 6.43 }, 0);
     window.__timelines["g8"] = tl;
     })();
   </script>
