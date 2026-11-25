@@ -1,0 +1,18 @@
+<template>
+  <style>@font-face { font-family: "IRANSans"; src: url('assets/fonts/IRANSans-Black.ttf') format('truetype'); font-weight: 900; }
+    #root { position: absolute; inset: 0; background: #050505; overflow: hidden; }
+    #ttl { position: absolute; left: 0; right: 0; top: 820px; text-align: center; direction: rtl; font-family: "IRANSans"; font-weight: 900; font-size: 120px; color: #ecebe6; letter-spacing: 2px; text-shadow: 0 0 30px rgba(255,255,255,0.25); }
+    #line { position: absolute; left: 340px; width: 400px; top: 1010px; height: 4px; background: #ecebe6; opacity: 0.7; transform-origin: 50% 50%; }
+    #tex { position: absolute; inset: 0; width: 1080px; height: 1920px; opacity: 0.07; mix-blend-mode: screen; }
+  </style>
+  <div id="root" data-composition-id="title" data-width="1080" data-height="1920">
+    <div id="ttl">آنچه گذشت…</div><div id="line"></div>
+    <img id="tex" src="assets/img/texture.png" alt="" data-layout-ignore />
+  </div>
+  <script>(function () { const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ttl", { opacity: 0, scale: 1.08, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.6, ease: "power2.out" }, 0.15);
+    tl.fromTo("#line", { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power2.out" }, 0.4);
+    const o = { t: 0 }; tl.to(o, { t: 2, duration: 2, ease: "none", onUpdate() { gsap.set("#ttl", { opacity: (0.88 + 0.12 * Math.sin(o.t * 37)) }); } }, 0.75);
+    tl.to(["#ttl", "#line"], { opacity: 0, duration: 0.3 }, 1.7);
+    tl.to({}, { duration: 2 }, 0); window.__timelines["title"] = tl; })();</script>
+</template>

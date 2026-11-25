@@ -1,0 +1,22 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    #grain { position: absolute; left: -60px; top: -60px; width: 1200px; height: 2040px; opacity: 0.2; mix-blend-mode: overlay; }
+    #flk { position: absolute; inset: 0; background: #fff; opacity: 0; }
+    .sc { position: absolute; top: 0; width: 3px; height: 1920px; background: rgba(240,240,230,0.5); opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="film" data-width="1080" data-height="1920">
+    <img id="grain" src="assets/img/texture.png" alt="" data-layout-ignore />
+    <div id="flk"></div><div class="sc" id="sc0"></div><div class="sc" id="sc1"></div>
+    <svg width="1080" height="1920" style="position:absolute;inset:0"><defs><radialGradient id="fv" cx="50%" cy="50%" r="72%"><stop offset="0.6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.8"/></radialGradient></defs><rect width="1080" height="1920" fill="url(#fv)"/></svg>
+  </div>
+  <script>(function () { const tl = gsap.timeline({ paused: true }); const o = { t: 0 };
+    tl.to(o, { t: 26.30, duration: 26.30, ease: "none", onUpdate() {
+      const t = o.t, f = Math.floor(t * 12);
+      gsap.set("#grain", { x: ((f * 37) % 60) - 30, y: ((f * 53) % 60) - 30 });
+      gsap.set("#flk", { opacity: 0.03 + 0.03 * Math.abs(Math.sin(f * 1.7)) });
+      gsap.set("#sc0", { left: (f * 131) % 1080, opacity: (f % 7 === 0) ? 0.6 : 0 });
+      gsap.set("#sc1", { left: (f * 271 + 400) % 1080, opacity: (f % 11 === 3) ? 0.45 : 0 });
+    } }, 0);
+    tl.to({}, { duration: 26.30 }, 0); window.__timelines["film"] = tl; })();</script>
+</template>
