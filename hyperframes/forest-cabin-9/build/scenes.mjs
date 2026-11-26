@@ -45,10 +45,10 @@ function m1(dur) {
         <g id="${id}-hd" transform="translate(600,1700)">${hand()}</g>${rain(id, 25, 0.22)}${torch(id, 0.8, 400)}` },
     ],
     js: `${rainJs(id, dur)} ${spotSet(id, 540, 1250)}
-    tl.to("#${id}-sh", { attr: { transform: "translate(900,-500) rotate(25)" }, duration: 0.55, ease: "power2.in" }, 0.05);
-    tl.to("#${id}-hd", { attr: { transform: "translate(560,1460)" }, duration: 0.35, ease: "power2.out" }, 0.75);
-    tl.to(["#${id}-pp"], { y: -260, scale: 1.2, duration: 0.4, ease: "power2.out" }, 1.1); tl.to("#${id}-hd", { attr: { transform: "translate(560,1200)" }, duration: 0.4 }, 1.1);
-    cam("b", { scale: 1.0, origin: "540px 1250px" }, { scale: 1.15, origin: "540px 1250px" }, 0, ${dur});
+    tl.to("#${id}-sh", { attr: { transform: "translate(900,-500) rotate(25)" }, duration: 0.6, ease: "power2.in" }, 0.25);
+    tl.to("#${id}-hd", { attr: { transform: "translate(560,1460)" }, duration: 0.4, ease: "power2.out" }, ${wt("m1", 2) - 0.3});
+    tl.to(["#${id}-pp"], { y: -260, scale: 1.2, duration: 0.6, ease: "power2.out" }, ${wt("m1", 3)}); tl.to("#${id}-hd", { attr: { transform: "translate(560,1200)" }, duration: 0.6 }, ${wt("m1", 3)});
+    cam("b", { scale: 1.0, origin: "540px 1150px" }, { scale: 1.35, origin: "540px 1000px" }, 0, ${dur}, "power1.inOut");
     ` }) };
 }
 // 2. the note, very close: the pencil words appear one phrase at a time; a child's drawing in the corner
@@ -60,10 +60,10 @@ function m2(dur) {
         <g transform="translate(60,1500) rotate(30)">${hand(1)}</g><g transform="translate(1020,1500) rotate(-30)">${hand(-1, HC.skinSh)}</g>${rain(id, 25, 0.2)}${torch(id, 0.7, 560)}` },
     ],
     js: `${rainJs(id, dur)} ${spotSet(id, 600, 700)}
-    tl.fromTo("#${id}-l0", { opacity: 0 }, { opacity: 1, duration: ${(wt("m2", 7) - wt("m2", 0) + 0.3).toFixed(2)}, ease: "none" }, ${wt("m2", 0) - 0.1});
-    tl.fromTo("#${id}-l1", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "none" }, ${wt("m2", 8) - 0.1});
-    tl.fromTo("#${id}-l2", { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "none" }, ${wt("m2", 10) - 0.1});
-    ${spotTo(id, 560, 600, wt("m2", 8) - 0.2, 0.6)} ${spotTo(id, 460, 1150, wt("m2", 11), 0.7)}
+    tl.fromTo("#${id}-l0", { opacity: 0 }, { opacity: 1, duration: ${(wt("m2", 8) - wt("m2", 2) + 0.3).toFixed(2)}, ease: "none" }, ${wt("m2", 2) - 0.1});
+    tl.fromTo("#${id}-l1", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "none" }, ${wt("m2", 9) - 0.1});
+    tl.fromTo("#${id}-l2", { opacity: 0 }, { opacity: 1, duration: 1.0, ease: "none" }, ${wt("m2", 11) - 0.1});
+    ${spotTo(id, 560, 600, wt("m2", 9) - 0.2, 0.6)} ${spotTo(id, 460, 1150, wt("m2", 12), 0.7)}
     cam("n", { scale: 1.0, origin: "540px 800px" }, { scale: 1.08, origin: "540px 800px" }, 0, ${dur});
     ${shakeJs(`#${id}-pg`, 0, 0.01, 0)}
     `.replace(/\(function \(\) \{ const el = document.querySelector\("#m2-pg"\);[\s\S]*?\}\)\(\);/, "") }) };

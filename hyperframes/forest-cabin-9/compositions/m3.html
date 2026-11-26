@@ -455,20 +455,20 @@ function flicker(sel, dur, base, amp) {
     const S = "m3";
     
     tl.set(["#m3-spot", "#m3-glow"], { attr: { cx: 600, cy: 900 } }, 0);
-    tl.to("#m3-ph", { attr: { transform: "translate(760,1000) rotate(4) scale(0.95)" }, duration: 0.5, ease: "power3.out" }, 1.62);
+    tl.to("#m3-ph", { attr: { transform: "translate(760,1000) rotate(4) scale(0.95)" }, duration: 0.5, ease: "power3.out" }, 1.1300000000000001);
     cam("p", { scale: 1.0, origin: "760px 1000px" }, { scale: 1.0, origin: "760px 1000px" }, 0, 0.01);
-    tl.to("#m3-p", { scale: 2.6, transformOrigin: "760px 1010px", duration: 1.4, ease: "power2.inOut" }, 5.430000000000001);
-    tl.to(".m3p-sl", { opacity: 0.45, duration: 1.0 }, 6.430000000000001);
-    tl.set("#m3-pa", { opacity: 0 }, 7.930000000000001); tl.set("#m3-pb", { opacity: 1 }, 7.930000000000001);
+    tl.to("#m3-p", { scale: 2.6, transformOrigin: "760px 1010px", duration: 1.4, ease: "power2.inOut" }, 4.2700000000000005);
+    tl.to(".m3p-sl", { opacity: 0.45, duration: 1.0 }, 5.2700000000000005);
+    tl.set("#m3-pa", { opacity: 0 }, 5.59); tl.set("#m3-pb", { opacity: 1 }, 5.59);
     look("m3-r", 0, 2, 0, 0.01); eyesOpen("m3-r", 1.55, 0, 0.01); brows("m3-r", -28, -16, 0, 0.01);
-    tl.fromTo("#m3-fs", { scale: 1.0 }, { scale: 1.1, transformOrigin: "540px 760px", duration: 1.79, ease: "power1.out" }, 7.930000000000001);
+    tl.fromTo("#m3-fs", { scale: 1.0 }, { scale: 1.1, transformOrigin: "540px 760px", duration: 1.79, ease: "power1.out" }, 5.59);
     (function () { const el = document.querySelector("#m3-fs"); const o = { t: 0 };
-  tl.fromTo(o, { t: 0 }, { t: 1.79, duration: 1.79, ease: "none", onUpdate() { const t = o.t;
+  tl.fromTo(o, { t: 0 }, { t: 1.795, duration: 1.795, ease: "none", onUpdate() { const t = o.t;
     const x = 3 * (Math.sin(t * 7.3 * 1.2) * 0.6 + Math.sin(t * 13.1 * 1.2 + 1) * 0.4), y = 3 * (Math.sin(t * 9.7 * 1.2 + 2) * 0.6 + Math.sin(t * 17.3 * 1.2) * 0.4);
-    el.setAttribute("transform", "translate(" + x.toFixed(1) + "," + y.toFixed(1) + ")"); } }, 7.930000000000001); })();
+    el.setAttribute("transform", "translate(" + x.toFixed(1) + "," + y.toFixed(1) + ")"); } }, 5.59); })();
     
     
-    tl.to({}, { duration: 9.72 }, 0);
+    tl.to({}, { duration: 7.385 }, 0);
     window.__timelines["m3"] = tl;
     })();
   </script>
