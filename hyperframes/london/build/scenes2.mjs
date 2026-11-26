@@ -110,7 +110,7 @@ function l6(dur) {
       ${place(540, 920, 0.92, man(f, "father", { arms: [[40, -120], [-40, 120]] }))}
       <g id="${id}-paper" transform="translate(540,1380) scale(0.55)">${news}</g>
       <g transform="translate(900,1260)"><rect x="-120" y="0" width="240" height="14" fill="#3a2414"/><rect x="-14" y="14" width="28" height="300" fill="#3a2414"/>
-        <g transform="translate(0,-110)"><rect x="-80" y="-100" width="160" height="200" fill="#8a6a30"/><g transform="translate(0,0)">${portrait(130, 170, 2)}</g></g>
+        <g transform="translate(0,-110)"><rect x="-80" y="-100" width="160" height="200" fill="#8a6a30"/><g transform="translate(0,0)">${portrait(130, 170, 1)}</g></g>
         <path d="M -30,-260 L 30,-260 L 46,-200 L -46,-200 Z" fill="#e8d0a0" opacity="0.9"/></g>
       <rect id="${id}-lampL" width="1080" height="1920" fill="url(#${id}-lamp)" style="mix-blend-mode:screen"/>${cool(0.25)}` }],
     js: `

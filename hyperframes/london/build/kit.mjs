@@ -48,7 +48,17 @@ const features = (man) => `<g fill="#1e1e1e"><ellipse cx="-0.10" cy="0.05" rx="0
   <path d="M 0.01,0.06 C 0.02,0.12 0.03,0.16 0.02,0.18" stroke="#8a8a86" stroke-width="0.016" fill="none"/>
   ${man ? "" : `<path d="M -0.06,0.27 C -0.02,0.25 0.02,0.25 0.06,0.27 C 0.03,0.30 -0.03,0.30 -0.06,0.27 Z" fill="#5a5a58"/>`}`;
 // a black-and-white portrait of a woman (variant changes the hair), centred at (0,0), w×h
-export function portrait(w, h, v = 0, { man = false } = {}) {
+// real archive photos (cropped from the 1912–1915 originals): the three victims in order, and Smith
+const REAL = ["assets/img/real/bessie.jpg", "assets/img/real/alice.jpg", "assets/img/real/margaret.jpg"];
+let RP = 0;
+export function portrait(w, h, v = 0, { man = false, drawn = false } = {}) {
+  if (!drawn) {
+    const href = man ? "assets/img/real/smith.jpg" : REAL[v % 3], cid = `rp${RP++}`;
+    return `<g><rect x="${-w / 2 - 10}" y="${-h / 2 - 10}" width="${w + 20}" height="${h + 20}" fill="#f2efe6"/>
+      <clipPath id="${cid}"><rect x="${-w / 2}" y="${-h / 2}" width="${w}" height="${h}"/></clipPath>
+      <image href="${href}" x="${-w / 2}" y="${-h / 2}" width="${w}" height="${h}" preserveAspectRatio="xMidYMin slice" clip-path="url(#${cid})" style="filter: grayscale(1) contrast(1.08) brightness(1.02)"/>
+      <rect x="${-w / 2}" y="${-h / 2}" width="${w}" height="${h}" fill="url(#vigBW)"/></g>`;
+  }
   const hair = ["#2a2a2a", "#3e3e3e", "#1e1e1e"][v % 3];
   const face = man
     ? `<path d="M -0.30,0.05 C -0.30,-0.30 0.30,-0.30 0.30,0.05 C 0.30,0.30 0.15,0.42 0,0.42 C -0.15,0.42 -0.30,0.30 -0.30,0.05 Z" fill="#b8b8b4"/>
