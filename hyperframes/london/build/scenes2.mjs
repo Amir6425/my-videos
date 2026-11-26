@@ -229,7 +229,7 @@ function l10(dur) {
       <g id="${id}-s0" opacity="0" transform="translate(80,300) rotate(-4)">${sheet("۱", "دارایی و ثروت قربانی", ["£2,500", "House", "Savings"])}</g>
       <g id="${id}-s1" opacity="0" transform="translate(700,330) rotate(3)">${sheet("۲", "بیمه عمر", ["Policy £500", "Paid to", "husband"])}</g>
       <g id="${id}-s2" opacity="0" transform="translate(390,1010) rotate(-2)">${sheet("۳", "انتقال منافع به شوهر", ["Will", "Transfer", "→ husband"])}</g>
-      <g id="${id}-man" opacity="0" transform="translate(540,700)">${portrait(300, 380, 0, { man: true })}<rect x="-150" y="-190" width="300" height="380" fill="#000" opacity="0.35"/></g>
+      <g id="${id}-man" opacity="0" transform="translate(540,700)">${portrait(300, 380, 0, { man: true, blur: 9 })}<rect x="-150" y="-190" width="300" height="380" fill="#000" opacity="0.35"/></g>
       <path d="M 300,500 L 450,640 M 840,520 L 640,640 M 540,1010 L 540,890" stroke="#c81818" stroke-width="4" opacity="0.8"/>
       <g id="${id}-q" opacity="0" transform="translate(540,680)">${T(0, 90, "?", { size: 300, fill: "#e01e1e", font: "Playfair Display", weight: 900 })}</g>` }],
     js: `
@@ -338,7 +338,7 @@ function l15(dur) {
     layers: [{ name: "wall", defs: BW_DEFS + glow(`${id}-lamp`, 540, 300, 900, "#ffcf8a", 0.35), svg: `${policeRoom()}
       ${[0, 1, 2].map((i) => `<g transform="translate(${230 + i * 310},470)">${portrait(170, 210, i)}</g>`).join("")}
       ${[0, 1, 2].map((i) => `<g transform="translate(${150 + i * 310},700) scale(0.55)">${certificate(["Smite", "Pep", "Leo"][i], ["B. Mundy", "A. Burnham", "M. Lofty"][i], i)}</g>`).join("")}
-      <g transform="translate(540,1040)"><g id="${id}-man" opacity="0">${portrait(200, 250, 0, { man: true })}</g></g>
+      <g transform="translate(540,1040)"><g id="${id}-man" opacity="0">${portrait(200, 250, 0, { man: true, blur: 6 })}</g></g>
       ${[230, 540, 850].map((x) => `<line x1="${x}" y1="580" x2="540" y2="920" stroke="#c81818" stroke-width="4" class="${id}-str" opacity="0"/>`).join("")}
       <rect width="1080" height="1920" fill="url(#${id}-lamp)" style="mix-blend-mode:screen"/>
       ${place(250, 1500, 1.15, manBack(d, "det"))}${cool(0.3)}` }],

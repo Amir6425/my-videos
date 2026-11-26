@@ -9,9 +9,7 @@ export const CARDS = [
   { id: "a2", href: "alice.jpg", label: "آلیس برنهام — ۱۹۱۳", t0: 24.95, t1: 27.95, x: 760, y: 440, w: 320, h: 400, rot: 3 },
   { id: "a3", href: "margaret.jpg", label: "مارگارت لافتی — ۱۹۱۴", t0: 32.45, t1: 40.0, x: 330, y: 450, w: 320, h: 420, rot: -2.5 },
   { id: "a4", href: "burnham.jpg", label: "چارلز برنهام، پدر آلیس", t0: 47.8, t1: 50.85, x: 780, y: 470, w: 250, h: 520, rot: 2.5 },
-  { id: "a5", href: "sketch_lofty.jpg", label: "دیلی اسکچ — فوریه ۱۹۱۵", t0: 50.9, t1: 56.4, x: 540, y: 660, w: 600, h: 755, rot: -1.5, paper: true },
   { id: "a6", href: "spilsbury.jpg", label: "سر برنارد اسپیلزبری — پزشک قانونی", t0: 109.35, t1: 115.6, x: 540, y: 460, w: 560, h: 446, rot: -2 },
-  { id: "a7", href: "sketch_smith.jpg", label: "دیلی اسکچ — ۱۹۱۵", t0: 166.4, t1: 172.2, x: 540, y: 660, w: 600, h: 732, rot: 1.5, paper: true },
 ];
 function card(c) {
   const { id, w = 0, h = 0 } = c, d = +(c.t1 - c.t0).toFixed(2);

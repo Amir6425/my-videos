@@ -51,12 +51,12 @@ const features = (man) => `<g fill="#1e1e1e"><ellipse cx="-0.10" cy="0.05" rx="0
 // real archive photos (cropped from the 1912–1915 originals): the three victims in order, and Smith
 const REAL = ["assets/img/real/bessie.jpg", "assets/img/real/alice.jpg", "assets/img/real/margaret.jpg"];
 let RP = 0;
-export function portrait(w, h, v = 0, { man = false, drawn = false } = {}) {
+export function portrait(w, h, v = 0, { man = false, drawn = false, blur = 0 } = {}) {
   if (!drawn) {
     const href = man ? "assets/img/real/smith.jpg" : REAL[v % 3], cid = `rp${RP++}`;
     return `<g><rect x="${-w / 2 - 10}" y="${-h / 2 - 10}" width="${w + 20}" height="${h + 20}" fill="#f2efe6"/>
       <clipPath id="${cid}"><rect x="${-w / 2}" y="${-h / 2}" width="${w}" height="${h}"/></clipPath>
-      <image href="${href}" x="${-w / 2}" y="${-h / 2}" width="${w}" height="${h}" preserveAspectRatio="xMidYMin slice" clip-path="url(#${cid})" style="filter: grayscale(1) contrast(1.08) brightness(1.02)"/>
+      <image href="${href}" x="${-w / 2}" y="${-h / 2}" width="${w}" height="${h}" preserveAspectRatio="xMidYMin slice" clip-path="url(#${cid})" style="filter: grayscale(1) contrast(1.08) brightness(1.02)${blur ? ` blur(${blur}px)` : ""}"/>
       <rect x="${-w / 2}" y="${-h / 2}" width="${w}" height="${h}" fill="url(#vigBW)"/></g>`;
   }
   const hair = ["#2a2a2a", "#3e3e3e", "#1e1e1e"][v % 3];
