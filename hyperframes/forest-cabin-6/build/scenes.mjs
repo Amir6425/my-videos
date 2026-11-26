@@ -466,3 +466,4 @@ export const DURS = Object.fromEntries(Object.entries(WJ).map(([k, v]) => [k, k 
 export default [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12, g13, g14, g15, g16, g17].map((f) => f(DURS[f.name]));
 export { ARASH, arashFull, arashBack, pocketWatch, lcdDefs, piece, pieceDefs, hand, logsWall, shelfBooks, foldedNote, HC, faceShot };
 export { mapArt, mapDefs };
+export { photo };

@@ -403,3 +403,4 @@ function k16(dur) {
 
 export const DURS = Object.fromEntries(Object.entries(WJ).map(([k, v]) => [k, k === "k16" ? Math.round((v.duration + 0.9) * 1000) / 1000 : v.duration]));
 export default [k1, k2, k3, k4, k5, k6, k7, k8, k9, k10, k11, k12, k13, k14, k15, k16].map((f) => f(DURS[f.name]));
+export { forest, rain, rainJs, torchDefs, torch, spotTo, spotSet, sneaker, burntTree, flash, flashJs, flashlight, ribbon, ribbonJs, arashFullBack, FA, NASKH };
