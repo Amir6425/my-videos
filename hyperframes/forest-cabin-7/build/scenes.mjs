@@ -173,3 +173,4 @@ function h6(dur) {
 
 export const DURS = Object.fromEntries(Object.entries(WJ).map(([k, v]) => [k, k === "h6" ? Math.round((v.duration + 1.5) * 1000) / 1000 : v.duration]));
 export default [h1, h2, h3, h4, h5, h6].map((f) => f(DURS[f.name]));
+export { radio, waves, wavesJs, ledJs, straps, folded, BAG, BAGD };
