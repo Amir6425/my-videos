@@ -2,6 +2,7 @@ import "./index.css";
 import "./fonts";
 import { Composition } from "remotion";
 import { Demo, demoSchema } from "./demo/Demo";
+import { Song, V01_FRAMES } from "./v01/Song";
 
 // Every video = one <Composition>. Add yours below (import it, give it an id, size, fps and length).
 export const RemotionRoot: React.FC = () => (
@@ -13,5 +14,6 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Demo-Wide" component={Demo} width={1920} height={1080} fps={30} durationInFrames={240}
       defaultProps={demoSchema} />
     {/* your videos */}
+    <Composition id="V01-Song" component={Song} width={1080} height={1920} fps={30} durationInFrames={V01_FRAMES} />
   </>
 );
